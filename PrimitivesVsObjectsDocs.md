@@ -56,9 +56,3 @@ Memory of `practice24Oct/copyingVariable.java` just before it ends:
 > Primitives hold values, and objects hold addresses.
 > Java copies the box, never the house.
 > `==` compares boxes, and `.equals()` compares houses.
-
-## Mistakes to avoid
-
-- **Unused imports added by the editor.** VS Code can add imports automatically while you type (for example `java.lang.reflect.Array` when you meant `Arrays`). Delete the ones you don't use. Some, like `java.util.stream.Gatherer`, only exist in Java 24 and later and break the file on older Java.
-- **Method names that don't match what the method does.** A method called `getLength` should get a length. Name methods after what they actually do; good names matter a lot in LLD.
-- **A parameter with the same name as a field hides the field.** Inside `getLength(int x)`, `x` means the parameter, not the field `x` at the top of the file. To reach the field, write `this.x`.

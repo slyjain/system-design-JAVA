@@ -16,6 +16,11 @@
 - A method called `getLength` should get a length. If it changes a value, its name should say so.
 - Good names matter a lot in LLD, because other people read your design through its names.
 
+## Keep imports clean
+
+- Editors can add imports automatically while you type, for example `java.lang.reflect.Array` when you meant `Arrays`.
+- Delete the ones you don't use. They mislead readers, and some, like `java.util.stream.Gatherer` (Java 24 and later only), break the file on older Java.
+
 ## Learning mode vs serious mode
 
 - **Learning mode** (practice folders like `practice24Oct`): focus on the concept. Shortcuts like `double` for money and assuming the input is valid are fine.

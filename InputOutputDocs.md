@@ -94,10 +94,7 @@ It only reads whole lines as Strings, so you have to convert numbers yourself, f
 
 ## Testing with an input file
 
-This works the same way as in C++:
-
-- C++: `./a.out < input.txt`
-- Java: `java Main.java < input.txt`. Add `> output.txt` to save what it prints.
+Redirect a file into the program's input, exactly as in C++ (`./a.out < input.txt`). How `<` and `>` work is in `StandardStreamsDocs.md`.
 
 ## Where you'll need this
 

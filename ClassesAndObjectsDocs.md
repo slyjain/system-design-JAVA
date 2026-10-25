@@ -1,23 +1,123 @@
-# Classes and objects in Java (in `void main()` files)
+# Classes and objects in Java
 
-## How classes fit into a `void main()` file
+Where classes can live (in the same file as `void main()`, in their own files, in packages) is in `FilesAndPackagesDocs.md`.
 
-- Put your classes in the same file as `void main()`, above or below it. The order doesn't matter, and there are no forward declarations like in C++.
-- The file itself becomes a hidden class named after the file, and your classes are nested inside it. In `BankDemo.java`, a class called `Account` is really `BankDemo$Account`.
-- To put classes in their own files, see `FilesAndPackagesDocs.md`.
+## The same class in C++ and Java
 
-## Shape of a class, compared with C++
+Both versions were compiled and run, and print the same output.
 
-- Fields, constructors, and methods with their full code all go inside the class's `{ }`. There's no `.h`/`.cpp` split and no `;` after the closing brace.
-- Every class automatically inherits from `Object`, which gives it `toString()` and `equals()`. C++ has no shared base class like this.
+C++:
 
-## Constructors and `this`
+```cpp
+class Player {
+private:
+    static int count;
+    const string name;
+    int score;
 
-- **Same as C++:** a constructor has the class's name and no return type. If you don't write one, Java adds an empty one. Once you write any constructor, that empty one is gone.
-- **No initializer lists:** assign the fields inside the constructor body, like `this.name = name;`.
-- **`this` is a reference, not a pointer,** so you write `this.name`, not `this->name`. You need it when a parameter has the same name as a field.
-- **One constructor can call another** with `this(...)` at the top, so you don't repeat code.
-- **No destructors:** the garbage collector frees objects, and `=` copies the reference, not the object.
+public:
+    Player(string name, int score) : name(name), score(score) { count++; }
+    Player(string name) : Player(name, 0) {}
+
+    string getName() const { return name; }
+    int getScore() const { return score; }
+    void addPoints(int points) { score += points; }
+    static int getCount() { return count; }
+
+    friend ostream& operator<<(ostream& os, const Player& p) {
+        return os << "Player " << p.name << ": " << p.score;
+    }
+};
+
+int Player::count = 0;
+```
+
+Java (`Player.java`):
+
+```java
+class Player {
+    private static int count = 0;
+    private final String name;
+    private int score;
+
+    Player(String name, int score) {
+        this.name = name;
+        this.score = score;
+        count++;
+    }
+
+    Player(String name) {
+        this(name, 0);
+    }
+
+    String getName() {
+        return name;
+    }
+
+    int getScore() {
+        return score;
+    }
+
+    void addPoints(int points) {
+        score += points;
+    }
+
+    static int getCount() {
+        return count;
+    }
+
+    @Override
+    public String toString() {
+        return "Player " + name + ": " + score;
+    }
+}
+```
+
+Using it:
+
+| C++ | Java |
+|---|---|
+| `Player a("Ravi");` | `Player a = new Player("Ravi");` |
+| `Player* b = new Player("Asha", 10);` | `Player b = new Player("Asha", 10);` |
+| `a.addPoints(5);` | `a.addPoints(5);` |
+| `cout << a << '\n';` | `IO.println(a);` |
+| `cout << Player::getCount() << '\n';` | `IO.println(Player.getCount());` |
+| `delete b;` | nothing to do |
+
+## What's different from C++
+
+**Shape of a class**
+
+- Everything goes inside the class, including each method's full code. There's no `.h`/`.cpp` split and no `;` after the closing brace.
+- The access modifier goes on each member. There are no `public:` sections and no `friend`.
+- Every class automatically inherits from `Object`, which gives it `toString()` and `equals()`. C++ has no shared base class.
+- `bool` is `boolean`, and `string` is `String` (capitalized because it's a class).
+
+**Fields, `static` and `final`**
+
+- Fields can get their starting value where they're declared, including `static` fields, so there's no separate `int Player::count = 0;`.
+- A `static` member belongs to the class: one copy shared by all objects. Use it through the class name, like `Player.getCount()`. Static methods have no `this`.
+- `const` becomes `final`: it can be assigned only once. A `final` field must be set by the end of every constructor.
+- A `final` reference is like C++'s `T* const p`: it can't point to another object, but the object itself can still change.
+- There are no `const` methods. To make an object unchangeable, use `private final` fields and no setters; that's how `String` works.
+
+**Constructors and `this`**
+
+- There's no initializer list: assign the fields in the constructor body.
+- `this` is a reference, not a pointer: `this.name`, not `this->name`. You need it when a parameter has the same name as a field, because the parameter hides the field.
+- One constructor can call another with `this(...)` at the top.
+- If you write no constructor, Java adds an empty one (`javap -p` shows it). Once you write any constructor, that empty one is gone.
+
+**Objects and memory**
+
+- Objects are only created with `new`, and the variable holds a reference to the object (see `PrimitivesVsObjectsDocs.md`).
+- There are no destructors and no `delete`. The garbage collector frees the memory.
+
+**Printing and comparing**
+
+- `operator<<` becomes `toString()`, which `println` calls automatically. It must be `public`, because it's `public` in `Object` and an overriding method can't be less visible.
+- `@Override` above a method says "I'm replacing an inherited method", like C++'s `override`. A misspelled method name then becomes a compile error instead of a silent bug.
+- `equals()` by default only checks whether two variables point to the same object, like `==`. To compare contents, you override it (Collections concept).
 
 ## Access modifiers
 
@@ -28,42 +128,19 @@
 | `protected` | this class and its subclasses | this class, its subclasses, **and the same package** |
 | none | `private` in a class, `public` in a struct | **package-private**: every class in the same package |
 
-- You write the modifier on each member. There are no `public:` sections, and there's no `friend`.
-- **LLD rule:** make fields `private` and give access through methods. This is called **encapsulation**.
+**LLD rule:** make fields `private` and give access through methods. This is called **encapsulation**.
 
-## `static`
+## Getters and setters
 
-- **Same idea as C++:** a static member belongs to the class and is shared by all objects, so there's one copy for the whole class. Use it through the class name, like `Account.getCount()`.
-- **Set its value where you declare it.** There's no separate `int A::count = 0;` outside the class.
-- **Static methods have no `this`,** so they can't use the normal (non-static) fields.
-
-## `final` (mostly Java's version of `const`)
-
-- **Set once:** a `final` variable can be assigned only once. A `final` field must be set by the end of the constructor.
-- **A `final` reference is like C++'s `T* const p`:** it can't point to a different object, but the object itself can still change.
-- **No `const` methods:** to make an object impossible to change, use `private final` fields and no setters. That's how `String` works.
-
-## Getters, setters, `toString()`, `equals()` and `@Override`
-
-- **Naming:** `getBalance()`, `setName(...)`, and `isActive()` for booleans.
-- **Only add the setters that make sense.** A bank account shouldn't have `setBalance`: the only allowed ways to change the balance are `deposit` and `withdraw`.
-- **`toString()`:** override it to control how your object prints, like overloading `operator<<` in C++. `println` calls it automatically.
-- **`equals()`:** by default it only checks whether two variables point to the same object, just like `==`. To compare contents, you override it.
-- **`@Override`** on the line above a method tells the compiler "I'm replacing an inherited method." If you misspell the name, you get a compile error instead of a silent bug. It works like C++'s `override` keyword.
-
-## What's different in a `void main()` file
-
-1. **`private` doesn't stop code in the same file.** The whole file is one hidden class, and Java lets any code inside a class use the private fields of classes nested in it. (`a.balance = 999;` in `main` compiles.) Follow the rule yourself; the compiler enforces it once each class has its own file.
-2. **`public`, `protected` and no modifier all behave the same here,** for the same reason.
-3. **Printing an object without `toString()`** shows something like `BankDemo$Account@3ec300f1`. The `$` means `Account` is nested inside the hidden `BankDemo` class.
-4. **"non-static variable this cannot be referenced from a static context":** you created an object inside a method marked `static` outside your classes. Remove the `static`; `main` isn't static in these files.
+- Naming: `getScore()`, `setName(...)`, and `isActive()` for booleans.
+- Only add the setters that make sense. A bank account shouldn't have `setBalance`: the only allowed ways to change the balance are `deposit` and `withdraw`.
 
 ## The BankAccount exercise: what serious mode would change
 
-The practice version uses shortcuts that are fine for learning. In real code you'd change three things:
+The practice version uses shortcuts that are fine for learning. In real code:
 
-- **Money:** store whole paise or cents in a `long`, or use `BigDecimal`. `double` has rounding errors (`0.1 + 0.2` prints `0.30000000000000004`).
+- **Money:** store whole paise or cents in a `long`, or use `BigDecimal`, because `double` has rounding errors (see the decimal-number trap in `InputOutputDocs.md`).
 - **Bad input:** reject it with exceptions (Concept 6) instead of assuming it's valid.
 - **Thread safety:** if two ATMs withdraw from the same account at the same moment, both can succeed and overdraw it (Concept 7).
 
-For the design rule about keeping printing out of `BankAccount`, see `EngineeringHabitsDocs.md`.
+Keeping printing out of `BankAccount` is covered in `EngineeringHabitsDocs.md`.

@@ -49,7 +49,6 @@
 
 ## In Java
 
-- `System.out.println` writes to stream 1, and `System.err.println` writes to stream 2.
 - Try it: write a program that prints one line with each, then run it with `> out.txt`. Only the `System.err` line stays on screen.
 
 ## Remember

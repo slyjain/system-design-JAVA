@@ -15,6 +15,7 @@
 | `cannot find symbol` | A name Java doesn't know: a typo, or a missing import | Fix the spelling, or add the import. Only `void main()` files import common classes automatically |
 | `x has private access in Y` | Code outside class `Y` used one of its private members | Use one of `Y`'s methods, like a getter, instead |
 | `x is not public in Y; cannot be accessed from outside package` | A member with no modifier was used from another package | Make it `public` if it should be usable from outside |
+| `toString() in X cannot override toString() in Object ... attempting to assign weaker access privileges; was public` | Your `toString()` is less visible than the `public` one it replaces | Add `public` |
 | `non-static variable this cannot be referenced from a static context` | In a `void main()` file, you created an object inside a `static` method | Remove `static` from that method |
 | `compact source file should not have package declaration` | A `void main()` file has a `package` line | Delete it, and keep the main file in the top folder |
 | `cannot access X ... file does not contain class X ... correct subdirectory of the sourcepath` | `X.java` has a package line that doesn't match its folder | Delete the package line, or move the file into the matching folder |

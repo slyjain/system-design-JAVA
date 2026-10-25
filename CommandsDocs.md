@@ -25,7 +25,7 @@
 
 - **`.` and `..`:** `.` means the current folder and `..` means the folder above it. `cd ..` goes up one level, and `code .` opens VS Code on the folder you're in.
 - **Globbing:** the shell expands `*` before the command even runs. `javac *.java` actually receives `javac BankAccount.java BankDemo.java`. Check with `echo *.java`.
-- **Feeding input without typing:** `printf '5\nRavi\n' | java Main.java` sends two lines to the program as its input. `printf` = print formatted, and `\n` = new line. You can also use a file: `java Main.java < input.txt`.
+- **Feeding input without typing:** `printf '5\nRavi\n' | java Main.java` sends two lines to the program as its input. `printf` = print formatted, and `\n` = new line.
 - **Chaining commands:**
   - `a && b` runs `b` only if `a` succeeded.
   - `a || b` runs `b` only if `a` failed.
@@ -36,7 +36,7 @@
 
 | Command | What the name means | What it does |
 |---|---|---|
-| `java File.java` | run straight from the source file | Compiles in memory and runs. Finds other classes' `.java` files in the same folder |
+| `java File.java` | run straight from the source file | Compiles in memory and runs, leaving no `.class` files behind |
 | `javac -d out *.java` | `-d` = destination folder | Compiles into `.class` files inside `out/` |
 | `java -cp out BankDemo` | `-cp` = class path | Runs `BankDemo`, looking for `.class` files in `out/` |
 | `javap -p out/X.class` | memory hook: "java peek". `-p` = show private members too | Shows what's inside a compiled class |
