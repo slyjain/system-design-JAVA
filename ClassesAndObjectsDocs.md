@@ -111,7 +111,7 @@ Using it:
 - `this` is a reference, not a pointer: `this.name`, not `this->name`. You need it when a parameter has the same name as a field, because the parameter hides the field.
 - One constructor can call another with `this(...)` at the top.
 - If you write no constructor, Java adds an empty one (`javap -p` shows it). Once you write any constructor, that empty one is gone.
-- **Rejecting bad input:** a constructor can't return `false`. It either finishes, and the object exists, or it throws an exception, and no object is created: `throw new IllegalArgumentException("why");`. C++ constructors signal failure the same way. Exceptions in depth are Concept 6.
+- **Rejecting bad input:** a constructor can't return `false`. It either finishes, and the object exists, or it throws an exception, and no object is created: `throw new IllegalArgumentException("why");`. C++ constructors signal failure the same way. More on exceptions: `ExceptionsDocs.md`.
 
 **Objects and memory**
 

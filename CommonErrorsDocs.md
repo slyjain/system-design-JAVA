@@ -20,6 +20,7 @@
 | `variable x not initialized in the default constructor` | A `final` field has no value, and the class has no constructor to set it | Write a constructor that sets it, or give it a value where it's declared |
 | `';' expected` | A statement or declaration is missing its `;`, for example `package io` | Add the `;` where the `^` points, or at the end of the line before |
 | `<identifier> expected` | Java expected a name, for example after an unfinished `package ` line | Finish the line, or delete it |
+| `unreachable statement` | A statement comes right after `return`, `throw`, `break` or `continue` in the same block, so it can never run | Delete it, or move it before the jump |
 | `illegal start of expression` | Java expected an expression but found something else, for example an empty `if()` | Complete it, like the condition inside `if (...)` |
 | `cannot find symbol` | A name Java doesn't know: a typo, or a missing import | Fix the spelling, or add the import. Only `void main()` files import common classes automatically |
 | `x has private access in Y` | Code outside class `Y` used one of its private members | Use one of `Y`'s methods, like a getter, instead |
@@ -40,7 +41,7 @@
 
 | Error | What it means | Fix |
 |---|---|---|
-| `IllegalArgumentException: ...` | Code rejected an argument on purpose. The message after the colon says why | Pass a valid value, or catch it with `try`/`catch` (Concept 6) |
+| `IllegalArgumentException: ...` | Code rejected an argument on purpose. The message after the colon says why | Pass a valid value, or catch it with `try`/`catch` (see `ExceptionsDocs.md`) |
 | `InputMismatchException` | `Scanner.nextInt()` got input that isn't a number | Check with `hasNextInt()` first, or give the right input |
 | `NullPointerException` | You used a reference that is `null`: you called a method on it, or did math with a `null` `Integer` or `Long`. The message names the culprit, like `because "BankAccount.count" is null` | Make it point to an object first. For numbers, use `int` or `long`, which can't be `null` |
 

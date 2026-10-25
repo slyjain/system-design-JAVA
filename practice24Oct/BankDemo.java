@@ -17,12 +17,24 @@ class BankDemo {
     }
 
     static void deposit(BankAccount account, long amount) {
-        boolean done = account.addCredit(amount);
-        System.out.println("deposit " + amount + " into " + account.getAccountNumber() + ": " + done);
+        try {
+            boolean done = account.addCredit(amount);
+            System.out.println("deposit " + amount + " into " + account.getAccountNumber() + ": " + done);
+        } catch (IllegalArgumentException e) {
+            System.out.println(
+                    "deposit " + amount + " into " + account.getAccountNumber() + " rejected (" + e.getMessage() + ")");
+        }
+
     }
 
     static void withdraw(BankAccount account, long amount) {
-        boolean done = account.addDebit(amount);
-        System.out.println("withdraw " + amount + " from " + account.getAccountNumber() + ": " + done);
+
+        try {
+            boolean done = account.addDebit(amount);
+            System.out.println("withdraw " + amount + " from " + account.getAccountNumber() + ": " + done);
+        } catch (IllegalArgumentException e) {
+            System.out.println(
+                    "withdraw " + amount + " into " + account.getAccountNumber() + " rejected (" + e.getMessage() + ")");
+        }
     }
 }

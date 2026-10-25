@@ -71,7 +71,7 @@ Scanner is easy but slow. For large inputs, roughly 100,000 numbers or more, whi
 - add everything to a `StringBuilder` and print it once at the end, or
 - use a `PrintWriter` and call `flush()` at the end. If you forget `flush()`, some or all of the output never appears. This is a classic bug.
 
-**Checked exceptions.** `readLine()` can throw an `IOException`, and Java won't compile your code until you either handle it or add `throws IOException` to `main`. C++ has nothing like this.
+**`readLine()` can throw `IOException`,** a checked exception, so `main` needs `throws IOException` or a `try`/`catch`. What "checked" means is in `ExceptionsDocs.md`.
 
 **Use only one reader per program.** If you mix `Scanner` and `BufferedReader` on `System.in`, some input gets lost, because each one reads ahead and keeps what it read in its own storage.
 

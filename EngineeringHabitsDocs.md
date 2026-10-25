@@ -43,13 +43,18 @@
 
 ## Fail loudly, with a useful message
 
-- When something can't be done, tell the caller: return `false` or throw an exception. Never just `return` and do nothing; the caller then believes it worked, and the bug hides.
+- When something can't be done, tell the caller: return `false` or throw an exception (which one: `ExceptionsDocs.md`). Never just `return` and do nothing; the caller then believes it worked, and the bug hides.
 - Put the bad value in the message, like `Opening balance can't be negative: -5`, so whoever reads it knows what went wrong without a debugger.
 
 ## Don't repeat yourself (DRY)
 
 - When the same few lines appear several times with small changes, move them into one method with parameters, like `deposit(account, amount)` in `BankDemo`.
 - **Why:** a fix or a change then happens in one place instead of in every copy.
+
+## Delete dead code instead of commenting it out
+
+- Code you no longer need, like a commented-out `// return false;`, should be deleted.
+- **Why:** commented-out code makes readers wonder whether it matters, and it goes out of date. Git already keeps every old version: `git log -p file` shows them.
 
 ## Keep generated files out of git
 

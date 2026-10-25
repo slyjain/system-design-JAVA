@@ -3,7 +3,7 @@ import java.util.Set;
 class BankAccount{
     private static Long count=0L;
     private final Long accountNumber;
-    private final Long FIRST_ACCOUNT_NUMBER=1000L;
+    private final static Long FIRST_ACCOUNT_NUMBER=1000L;
     private final String name;
     private Long balance;
     public BankAccount(String name){
@@ -33,22 +33,18 @@ class BankAccount{
     public static Long getTotalAccount(){
         return count;
     }
-    void setBalance(Long newBalance){
-        if(newBalance<0){
-            return;
-        }
-        this.balance=newBalance;
-    }
-    Boolean addCredit(Long credit){
-        if(credit<0){
-            return false;
+    Boolean addCredit(Long credit) throws IllegalArgumentException{
+        if(credit<=0){
+            throw new IllegalArgumentException("The value credited should be positive");
+            // return false;
         }
         this.balance+=credit;
         return true;
     }
     Boolean canDebit(Long debit){
-        if(debit<0){
-            return false;
+        if(debit<=0){
+            throw new IllegalArgumentException("The value debited should be positive");
+            // return false;
         }
         return balance>=debit;
     }
@@ -62,6 +58,6 @@ class BankAccount{
 
     @Override 
     public String toString(){
-        return "Account "+accountNumber+ " (" + name + ") : balance " +balance;
+        return "Account "+accountNumber+ " (" + name + "): balance " +balance;
     }
 };

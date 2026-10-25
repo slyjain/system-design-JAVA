@@ -26,9 +26,9 @@ Shared by the whole class, not stored per account: how many accounts have been o
 | Action | Rule | Returns |
 |---|---|---|
 | Open with an owner's name | The balance starts at 0 | a new account |
-| Open with an owner's name and an opening amount | The balance starts at that amount (assume it's valid for now) | a new account |
-| Deposit an amount | Refused if the amount is 0 or less. Otherwise the balance goes up | `true` if done, `false` if refused |
-| Withdraw an amount | Refused if the amount is 0 or less, or more than the balance. Otherwise the balance goes down | `true` if done, `false` if refused |
+| Open with an owner's name and an opening amount | The balance starts at that amount. A negative amount: throw `IllegalArgumentException` | a new account |
+| Deposit an amount | An amount of 0 or less is a caller bug: throw `IllegalArgumentException`. Otherwise the balance goes up | `true` |
+| Withdraw an amount | An amount of 0 or less: throw `IllegalArgumentException`. More than the balance is a normal outcome: refuse it. Otherwise the balance goes down | `true` if done, `false` if refused |
 | Read the number, the owner or the balance | Getters only, no setters | the value |
 | Ask how many accounts exist | Asked on the class, not on one account | the count |
 | Print the account | Text like `Account 1001 (Samyak): balance 500.0` | the text, through `toString()` |
@@ -61,7 +61,7 @@ Account 1001 (Samyak): balance 0
 Account 1002 (Ravi): balance 1000
 deposit 500 into 1001: true
 withdraw 2000 from 1002: false
-deposit -50 into 1001: false
+deposit -50 into 1001: rejected (<your exception message>)
 withdraw 300 from 1002: true
 Account 1001 (Samyak): balance 500
 Account 1002 (Ravi): balance 700
@@ -71,7 +71,7 @@ Accounts opened: 2
 ### Edge cases to try next
 
 - Withdraw exactly the whole balance: allowed, and the balance becomes `0`.
-- Deposit 0, or withdraw 0: refused.
+- Deposit 0, withdraw 0 or withdraw -5: rejected with an `IllegalArgumentException`.
 - Open a third account: it gets 1003, and the count becomes 3.
 
 ## Experiments (guess the result first, then try)
@@ -85,5 +85,4 @@ Accounts opened: 2
 ## What serious mode would change
 
 - **Money:** store whole paise or cents in a `long`, or use `BigDecimal`, because `double` has rounding errors (see the decimal-number trap in [InputOutputDocs.md](../InputOutputDocs.md)).
-- **Bad input:** reject it with exceptions (Concept 6), for example a negative opening amount.
 - **Thread safety:** two withdrawals at the same moment can both pass the balance check and overdraw the account (Concept 7).
