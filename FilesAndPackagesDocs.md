@@ -66,7 +66,6 @@ VS Code may say the declared package doesn't match the expected package `practic
 
 **Don't fix it by adding a package line.** With `package practice24Oct;`, the terminal run fails to compile, and the `void main()` file can't have a package anyway.
 
-**Fix VS Code instead** (pick one):
+**Fix: open each practice folder as its own VS Code window**, for example `code practice24Oct` from `system-design/`. VS Code then treats that folder as the top, and the error goes away.
 
-- Right-click `practice24Oct` in the Explorer and choose **Add Folder to Java Source Path**. Do this for each new practice folder.
-- Or open the practice folder itself in VS Code: `code practice24Oct`.
+**Why a separate window, not "Add Folder to Java Source Path":** VS Code treats each opened folder as one Java project, and all classes in one project share one set of names. Putting several practice folders into the same project makes same-named classes clash. `src/main.java` and `practice23Oct/main.java` would already be two classes called `main`, and a `BankAccount` written on another day would clash with this one. Separate windows keep each day's practice apart.

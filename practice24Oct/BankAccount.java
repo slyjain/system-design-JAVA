@@ -1,26 +1,28 @@
 import java.util.Set;
 
 class BankAccount{
-    private static Long count=1L;
+    private static Long count=0L;
     private final Long accountNumber;
+    private final Long FIRST_ACCOUNT_NUMBER=1000L;
     private final String name;
     private Long balance;
-    Set<Long> accountSet;
     public BankAccount(String name){
         this.name=name;
-        this.accountNumber=count;
-        this.balance=0L;
         count++;
+        this.accountNumber=FIRST_ACCOUNT_NUMBER+count;
+        this.balance=0L;
+        
 
     }
     public BankAccount (String name,Long balance){
         this.name=name;
         if(balance<0){
-            throw new IllegalArgumentException("The balance only stays greater than or equal to zero");
+            throw new IllegalArgumentException("Opening balance cant be negative : "+balance);
         }
         this.balance=balance;
-        this.accountNumber=count;
         count++;
+        this.accountNumber=FIRST_ACCOUNT_NUMBER+count;
+        
     }
      public String getName(){
         return name;
@@ -60,6 +62,6 @@ class BankAccount{
 
     @Override 
     public String toString(){
-        return "Account "+accountNumber+ "(" + name + ") : balance " +balance;
+        return "Account "+accountNumber+ " (" + name + ") : balance " +balance;
     }
 };

@@ -97,7 +97,11 @@ Using it:
 
 - Fields can get their starting value where they're declared, including `static` fields, so there's no separate `int Player::count = 0;`.
 - A `static` member belongs to the class: one copy shared by all objects. Use it through the class name, like `Player.getCount()`. Static methods have no `this`.
+- **Static or not? Ask: "is this a fact about the whole class, or about one object?"** How many accounts exist is about all accounts, so it's `static`. An account's number is about one account, so it's a normal field. A `static` account number means every account shares one number: the last one handed out.
+- **Trap:** Java accepts `this.x` even when `x` is `static`, so the code looks per-object while it changes the one shared copy. `javac -Xlint:all` warns about it (`static variable should be qualified by type name`), and VS Code underlines it in yellow.
+- A `static` field that changes, like a set of used account numbers, is shared by the whole program: you can't have two separate banks, and one test's accounts affect the next. Fine for learning. In serious code, prefer an object that owns that state (see "Each invariant needs an owner" below).
 - `const` becomes `final`: it can be assigned only once. A `final` field must be set by the end of every constructor.
+- A constant (`static final` with a fixed value) is named in UPPER_SNAKE_CASE, like `FIRST_ACCOUNT_NUMBER`. A named constant says what a bare number like `1001` means.
 - A `final` reference is like C++'s `T* const p`: it can't point to another object, but the object itself can still change.
 - There are no `const` methods. To make an object unchangeable, use `private final` fields and no setters; that's how `String` works.
 
@@ -107,6 +111,7 @@ Using it:
 - `this` is a reference, not a pointer: `this.name`, not `this->name`. You need it when a parameter has the same name as a field, because the parameter hides the field.
 - One constructor can call another with `this(...)` at the top.
 - If you write no constructor, Java adds an empty one (`javap -p` shows it). Once you write any constructor, that empty one is gone.
+- **Rejecting bad input:** a constructor can't return `false`. It either finishes, and the object exists, or it throws an exception, and no object is created: `throw new IllegalArgumentException("why");`. C++ constructors signal failure the same way. Exceptions in depth are Concept 6.
 
 **Objects and memory**
 
@@ -130,17 +135,11 @@ Using it:
 
 **LLD rule:** make fields `private` and give access through methods. This is called **encapsulation**.
 
+**Why (first principles): invariants.** An invariant is a fact that must always be true for every object, whatever methods anyone calls, for example "a balance is never negative". If the fields were public, any code anywhere could break it. With private fields, the class's own methods are the only way in, so the class alone can guarantee its invariants.
+
+**Each invariant needs an owner.** A rule about one object ("a balance is never negative") belongs in that object's class. A rule about many objects ("no two accounts share a number") can't be checked by one account, because an account doesn't know the others exist. It belongs to whatever holds all of them, like a `Bank` class, or it disappears if the class generates the numbers itself.
+
 ## Getters and setters
 
 - Naming: `getScore()`, `setName(...)`, and `isActive()` for booleans.
-- Only add the setters that make sense. A bank account shouldn't have `setBalance`: the only allowed ways to change the balance are `deposit` and `withdraw`.
-
-## The BankAccount exercise: what serious mode would change
-
-The practice version uses shortcuts that are fine for learning. In real code:
-
-- **Money:** store whole paise or cents in a `long`, or use `BigDecimal`, because `double` has rounding errors (see the decimal-number trap in `InputOutputDocs.md`).
-- **Bad input:** reject it with exceptions (Concept 6) instead of assuming it's valid.
-- **Thread safety:** if two ATMs withdraw from the same account at the same moment, both can succeed and overdraw it (Concept 7).
-
-Keeping printing out of `BankAccount` is covered in `EngineeringHabitsDocs.md`.
+- A setter that could break an invariant shouldn't exist. A bank account has no `setBalance`, because `deposit` and `withdraw` are the only changes that keep the balance valid.

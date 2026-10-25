@@ -1,9 +1,9 @@
 class BankDemo {
     public static void main() {
-        BankAccount samyakAccount = new BankAccount("Samyak", 1001L);
+        BankAccount samyakAccount = new BankAccount("Samyak");
         System.out.println(samyakAccount);
 
-        BankAccount raviAccount = new BankAccount("Ravi", 1000L, 1002L);
+        BankAccount raviAccount = new BankAccount("Ravi", 1000L);
         System.out.println(raviAccount);
 
         deposit(samyakAccount, 500);

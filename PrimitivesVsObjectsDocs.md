@@ -45,6 +45,13 @@ Memory of `practice24Oct/copyingVariable.java` just before it ends:
   - String literals written in your code are shared the same way, so `==` on two `"Samyak"` literals is `true`.
   - Don't rely on that, though. Always use `.equals()` for strings.
 
+## Wrapper types: `Integer`, `Long`, `Boolean`
+
+- Every primitive has an object version: `int` and `Integer`, `long` and `Long`, `boolean` and `Boolean`, and so on. Java converts between them automatically.
+- **Use the primitive by default.** Use the wrapper only where Java requires an object, like `List<Integer>`, because collections can't hold primitives.
+- **A wrapper is an object, so it can be `null`, and a wrapper field starts as `null`, not 0.** Doing math with a `null` wrapper crashes with a `NullPointerException`, for example `private static Integer count;` followed by `count++`.
+- `==` on wrappers compares addresses: that's the `Integer` 127 vs 128 result in the table above.
+
 ## In C++ terms
 
 - **Object variables:** a Java object variable is like a C++ pointer that Java follows automatically when you use `.`.
