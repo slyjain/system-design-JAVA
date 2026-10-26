@@ -6,7 +6,7 @@ A tiny bank. People open accounts, put money in and take money out. The bank num
 
 ## The two files and their jobs
 
-- **`BankAccount.java`** is one bank account. It remembers its data and enforces the rules. It never prints anything (see "Keep printing out of your core classes" in [EngineeringHabitsDocs.md](../EngineeringHabitsDocs.md)).
+- **`BankAccount.java`** is one bank account. It remembers its data and enforces the rules. It never prints anything (see "Keep printing out of your core classes" in `EngineeringHabitsDocs.md`).
 - **`BankDemo.java`** is the customer. Its `main` opens accounts, calls their methods and prints what happened.
 
 ## BankAccount
@@ -39,7 +39,7 @@ Shared by the whole class, not stored per account: how many accounts have been o
 - Each account number is unique and never changes.
 - The owner never changes.
 
-What an invariant is, and why it's the reason for `private` fields: [ClassesAndObjectsDocs.md](../ClassesAndObjectsDocs.md).
+What an invariant is, and why it's the reason for `private` fields: `DesignPrinciplesDocs.md`.
 
 ## BankDemo: the scenario to run
 
@@ -84,5 +84,5 @@ Accounts opened: 2
 
 ## What serious mode would change
 
-- **Money:** store whole paise or cents in a `long`, or use `BigDecimal`, because `double` has rounding errors (see the decimal-number trap in [InputOutputDocs.md](../InputOutputDocs.md)).
+- **Money:** store whole paise or cents in a `long`, or use `BigDecimal`, because `double` has rounding errors (see the decimal-number trap in `InputOutputDocs.md`).
 - **Thread safety:** two withdrawals at the same moment can both pass the balance check and overdraw the account (Concept 7).

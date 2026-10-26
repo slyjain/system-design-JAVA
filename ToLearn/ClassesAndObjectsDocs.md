@@ -99,7 +99,7 @@ Using it:
 - A `static` member belongs to the class: one copy shared by all objects. Use it through the class name, like `Player.getCount()`. Static methods have no `this`.
 - **Static or not? Ask: "is this a fact about the whole class, or about one object?"** How many accounts exist is about all accounts, so it's `static`. An account's number is about one account, so it's a normal field. A `static` account number means every account shares one number: the last one handed out.
 - **Trap:** Java accepts `this.x` even when `x` is `static`, so the code looks per-object while it changes the one shared copy. `javac -Xlint:all` warns about it (`static variable should be qualified by type name`), and VS Code underlines it in yellow.
-- A `static` field that changes, like a set of used account numbers, is shared by the whole program: you can't have two separate banks, and one test's accounts affect the next. Fine for learning. In serious code, prefer an object that owns that state (see "Each invariant needs an owner" below).
+- A `static` field that changes, like a set of used account numbers, is shared by the whole program: you can't have two separate banks, and one test's accounts affect the next. Fine for learning. In serious code, prefer an object that owns that state (see "Responsibility" in `DesignPrinciplesDocs.md`).
 - `const` becomes `final`: it can be assigned only once. A `final` field must be set by the end of every constructor.
 - A constant (`static final` with a fixed value) is named in UPPER_SNAKE_CASE, like `FIRST_ACCOUNT_NUMBER`. A named constant says what a bare number like `1001` means.
 - A `final` reference is like C++'s `T* const p`: it can't point to another object, but the object itself can still change.
@@ -120,9 +120,9 @@ Using it:
 
 **Printing and comparing**
 
-- `operator<<` becomes `toString()`, which `println` calls automatically. It must be `public`, because it's `public` in `Object` and an overriding method can't be less visible.
-- `@Override` above a method says "I'm replacing an inherited method", like C++'s `override`. A misspelled method name then becomes a compile error instead of a silent bug.
+- `operator<<` becomes `toString()`, which `println` calls automatically. You're overriding `Object`'s version, so mark it `@Override` and keep it `public` (overriding rules: `InheritanceDocs.md`).
 - `equals()` by default only checks whether two variables point to the same object, like `==`. To compare contents, you override it (Collections concept).
+- **Override `equals()` or not? Ask: "is this thing defined by its identity or by its values?"** Two accounts with the same owner and balance are still two different accounts, so the default is right for `BankAccount`. Things defined only by their values, like an amount of money or a date, should override it.
 
 ## Access modifiers
 
@@ -133,11 +133,7 @@ Using it:
 | `protected` | this class and its subclasses | this class, its subclasses, **and the same package** |
 | none | `private` in a class, `public` in a struct | **package-private**: every class in the same package |
 
-**LLD rule:** make fields `private` and give access through methods. This is called **encapsulation**.
-
-**Why (first principles): invariants.** An invariant is a fact that must always be true for every object, whatever methods anyone calls, for example "a balance is never negative". If the fields were public, any code anywhere could break it. With private fields, the class's own methods are the only way in, so the class alone can guarantee its invariants.
-
-**Each invariant needs an owner.** A rule about one object ("a balance is never negative") belongs in that object's class. A rule about many objects ("no two accounts share a number") can't be checked by one account, because an account doesn't know the others exist. It belongs to whatever holds all of them, like a `Bank` class, or it disappears if the class generates the numbers itself.
+**LLD rule:** make fields `private` and give access through methods. This is called **encapsulation**. What it means, why it matters, and how it protects invariants is in `DesignPrinciplesDocs.md`.
 
 ## Getters and setters
 

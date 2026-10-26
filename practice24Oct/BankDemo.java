@@ -1,11 +1,11 @@
 class BankDemo {
     public static void main() {
-        BankAccount samyakAccount = new BankAccount("Samyak");
+        BankAccount samyakAccount = new BankAccount("Samyak",1000L);
         System.out.println(samyakAccount);
 
-        BankAccount raviAccount = new BankAccount("Ravi", 1000L);
+        BankAccount raviAccount = new BankAccount("Samyak", 1000L);
         System.out.println(raviAccount);
-
+        // System.out.println(samyakAccount.equals(raviAccount));
         deposit(samyakAccount, 500);
         withdraw(raviAccount, 2000);
         deposit(samyakAccount, -50);

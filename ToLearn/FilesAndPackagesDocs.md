@@ -14,7 +14,7 @@ What goes inside a class is in `ClassesAndObjectsDocs.md`. Error messages you ca
 ## Everything in one file with `void main()`
 
 - Put your classes above or below `void main()`. The order doesn't matter, and there are no forward declarations.
-- The file itself becomes a hidden class named after the file, and your classes are nested inside it. In `BankDemo.java`, a class called `Account` is really `BankDemo$Account`. That's why printing it without `toString()` shows something like `BankDemo$Account@3ec300f1`.
+- The file itself becomes a hidden class named after the file, and your classes are nested inside it. In `BankDemo.java`, a class called `Account` is really `BankDemo$Account`. That's why printing it without `toString()` shows something like `BankDemo$Account@3ec300f1`. A class in its own file is top-level and prints without the `$`, like `BankAccount@43ee72e6`.
 - This nesting is also why access modifiers aren't enforced in one file (see the table below): Java lets code anywhere inside a class use the private members of classes nested in it, and the whole file is one class.
 
 ## Option 1: separate files in the same folder

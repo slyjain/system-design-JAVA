@@ -13,7 +13,9 @@
 
 | Command | What the name means | What it does | Example |
 |---|---|---|---|
-| `mv a b` | move | Moves a file. Renaming is moving to a new name in the same folder | `mv AGENT.md AGENTS.md` |
+| `mv a b` | move | Moves a file or folder. Renaming is moving to a new name in the same folder. Trap: if `b` is an existing folder, `a` is moved *into* it instead of being renamed | `mv AGENT.md AGENTS.md` |
+| `cp source target` | copy | Copies a file. If the target is a folder, the copy keeps its name | `cp practice24Oct/BankAccount.java practice25Oct/` |
+| `rmdir folder` | remove directory | Deletes a folder, but only if it's empty, so it can't delete work by accident | `rmdir practice25Oct` |
 | `rm files` | remove | Deletes files permanently: there's no trash and no undo. Check what a pattern matches first with `echo`, like `echo *.class` | `rm *.class` |
 | `ln -s target link` | link, `-s` = symbolic | Creates a shortcut (symlink) that points to the target file | `ln -s AGENT.md AGENTS.md` |
 | `touch a b` | "touches" the last-modified time | Updates that time, and creates empty files if they don't exist | `touch BankAccount.java BankDemo.java` |

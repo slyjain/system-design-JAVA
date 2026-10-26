@@ -14,3 +14,7 @@ When you write something worth really understanding write it in a md file
 example you explained why 2>&1 => means 2(System.err) and 1(System.out) tells that when we run a command we only get 1(system.out) and System.err are left , so it means that System.err goes wherever there is system.out, so always create a md file for such short concepts and always write them down.
 Also do not have repeated information in any, the information must not be redundant
 The relevant and matching information should be clubbed into one file if needed, but do not keep the lenght of the file non readable
+Things which I have understood will be moved to other folder , there will be 2 types of folder 
+1-> ToLearn 
+2-> Learned
+These all will contain same file names but will have different content I will myself move these when I think I have understood the concept, so that I can keep a track of what I have learnt and what I have not
