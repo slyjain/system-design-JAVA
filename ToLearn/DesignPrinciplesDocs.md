@@ -42,3 +42,17 @@
 - **Responsibility** decides *who* owns a rule.
 - The **invariant** *is* the rule.
 - **Encapsulation** is *how* the owner keeps the rule true.
+
+## Liskov Substitution: a subclass must keep its parent's promises
+
+Code that holds a `BankAccount` should work with *any* subclass without knowing which one. A subclass may promise **more**, but never **less**:
+
+| Change in the subclass | OK? | Example |
+|---|---|---|
+| Keeps a stronger invariant | Yes | Savings: balance never below 500 (so also never below 0) |
+| Refuses more often, when the parent's method was already allowed to refuse | Yes | Savings `addDebit` returns `false` more often; callers already handle `false` |
+| Breaks an invariant the parent promised | **No** | Current: balance can go negative, but `BankAccount` promised "never negative" |
+
+What breaks: any code written against the parent's promise. For example, a bank report that sums balances as assets, or a "close account and pay out the balance" method, gets a negative number it never expected.
+
+Fix the promise, not the callers: make the parent promise only what *every* account keeps. For example, "the balance never goes below this account's own minimum", where each subclass says what its minimum is (500, or minus the overdraft limit).

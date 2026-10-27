@@ -17,8 +17,8 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 |---|---|---|---|
 | 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `practice24Oct/copyingVariable.java`, `PrimitivesVsObjectsDocs.md` |
 | 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `practice24Oct/BankAccount*`, `ClassesAndObjectsDocs.md`, `DesignPrinciplesDocs.md` |
-| 3 | Inheritance and polymorphism | **Now** | `practice26Oct/AccountTypesTask.md`, `InheritanceDocs.md` |
-| 4 | Interfaces and abstract classes | Next | |
+| 3 | Inheritance and polymorphism | Done | `practice26Oct/AccountTypesTask.md`, `InheritanceDocs.md` |
+| 4 | Interfaces and abstract classes | **Now** | `practice27Oct/InterfacesTask.md`, `InterfacesDocs.md` |
 | 5 | Collections (`List`, `Map`, `Set`) and generics. Practice: a `Bank` class that owns all accounts | | |
 | 6 | Exceptions | Started | `ExceptionsDocs.md` |
 | 7 | Concurrency: threads, `synchronized`, atomics, executors. Practice: break `BankAccount` with two threads, then fix it | | |

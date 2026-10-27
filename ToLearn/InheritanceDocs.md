@@ -13,6 +13,7 @@
 With `BankAccount a = new SavingsAccount(...);`:
 
 - `a.addInterest()` doesn't compile. The compiler only looks at the variable's type, and `BankAccount` has no `addInterest`.
+  - If you really need it: `if (a instanceof SavingsAccount s) s.addInterest();` checks the object's real type at run time and gives you a `SavingsAccount` variable `s`. (C++: `dynamic_cast`.) Needing this often is a design smell: the parent type should already offer what callers need.
 - `a.addDebit(600)` uses `SavingsAccount`'s rules, because at run time Java looks at the actual object.
 - This also works for calls *inside* the parent: when `BankAccount.addDebit` calls `canDebit`, a savings account's own `canDebit` runs. A parent method that leaves one step to its subclasses like this is the **Template Method** pattern.
 

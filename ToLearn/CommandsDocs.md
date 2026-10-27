@@ -29,6 +29,7 @@
 
 - **`.` and `..`:** `.` means the current folder and `..` means the folder above it. `cd ..` goes up one level, and `code .` opens VS Code on the folder you're in.
 - **Globbing:** the shell expands `*` before the command even runs. `javac *.java` actually receives `javac BankAccount.java BankDemo.java`. Check with `echo *.java`.
+- **Brace expansion:** `{a,b,c}` becomes three words, whether or not the files exist (unlike `*`). `cp src/{A,B}.java dest/` runs `cp src/A.java src/B.java dest/`. Also: `mkdir -p app/{src,test}`, and `cp file{,.bak}` (= `cp file file.bak`). Check with `echo`.
 - **Quoting a pattern:** in quotes, `'*.class'` reaches the program as the pattern itself, so the program does the matching instead of the shell. `git rm --cached '*.class'` lets git match `.class` files in every folder. Without quotes, zsh expands the pattern in the current folder only, and if nothing matches it stops with `no matches found` and runs nothing.
 - **Feeding input without typing:** `printf '5\nRavi\n' | java Main.java` sends two lines to the program as its input. `printf` = print formatted, and `\n` = new line.
 - **Chaining commands:**
