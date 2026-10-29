@@ -15,3 +15,14 @@ example you explained why 2>&1 => means 2(System.err) and 1(System.out) tells th
 Also do not have repeated information in any, the information must not be redundant
 The relevant and matching information should be clubbed into one file if needed, but do not keep the lenght of the file non readable
 I have made a project that reads from ToLearn and it reads and stores the information in ticked format of what I have read and what is added new will get auto non ticked , it will be only frontend , so that I can read it through b rowser and tick what I have understood
+My Exercies will also be present inside the Study reader and should tick after each point if I have done it , you can do the ticking here , we can have 2 different folders for and shoeing space for Theory and practice sheets 
+The Folders can have segregation on basis of 
+1. DSA
+2. LLD
+3. HLD 
+4. Core-CS
+5. AI
+6. Programming
+7. Developer-Tools
+
+Use these category folders under `ToLearn/` for theory and `PracticeSheets/` for exercises. Categories may be empty; keep related information together without duplicating notes.
