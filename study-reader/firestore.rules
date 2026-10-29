@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Deliberately public shared progress: this cannot prevent visitors from
+    // changing other visitors' ticks or consuming database quota.
+    match /checks/{itemId} {
+      allow read: if true;
+      allow create, update: if itemId.matches('^[a-f0-9]{64}$')
+        && request.resource.data.keys().hasOnly(['checked'])
+        && request.resource.data.keys().hasAll(['checked'])
+        && request.resource.data.checked is bool;
+      allow delete: if false;
+    }
+  }
+}
