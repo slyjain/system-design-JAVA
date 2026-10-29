@@ -15,6 +15,10 @@ vi.mock('./notes', () => ({
     path: 'Example.md', title: 'Example', source: 'first idea', definitions: '',
     itemIds: ['item-one'],
     nodes: [{ kind: 'item', id: 'item-one', markdown: 'First idea', label: 'First idea' }],
+  }, {
+    path: 'LLD/Design.md', title: 'Design', source: 'design idea', definitions: '',
+    itemIds: ['lld-theory'],
+    nodes: [{ kind: 'item', id: 'lld-theory', markdown: 'Design idea', label: 'Design idea' }],
   }],
   practiceNotes: [{
     path: 'PracticeSheets/Example.md', title: 'Exercise', source: 'practice point', definitions: '',
@@ -23,6 +27,10 @@ vi.mock('./notes', () => ({
       { kind: 'content', markdown: 'Practice explanation' },
       { kind: 'item', id: 'practice-one', markdown: 'Practice point', label: 'Practice point' },
     ],
+  }, {
+    path: 'PracticeSheets/LLD/Exercise.md', title: 'Design Exercise', source: 'design practice', definitions: '',
+    itemIds: ['lld-practice'],
+    nodes: [{ kind: 'item', id: 'lld-practice', markdown: 'Design practice', label: 'Design practice' }],
   }],
 }));
 
@@ -85,5 +93,30 @@ describe('reader UI with a simulated progress service', () => {
     expect(fake.progress['practice-one']).toBe(true);
     await user.click(screen.getByRole('button', { name: 'Theory' }));
     expect((screen.getByRole('checkbox', { name: /first idea/i }) as HTMLInputElement).checked).toBe(true);
+  });
+
+  it('filters theory and practice by subject, including existing unsorted notes', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const select = screen.getByRole('combobox', { name: 'Subject' });
+    await user.selectOptions(select, 'LLD');
+    expect(screen.getByRole('heading', { name: 'Design' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /Example/ })).toBeNull();
+    await user.click(screen.getByRole('button', { name: 'Practice' }));
+    expect(screen.getByRole('heading', { name: 'Design Exercise' })).toBeTruthy();
+    await user.selectOptions(select, 'unsorted');
+    expect(screen.getByRole('heading', { name: 'Exercise' })).toBeTruthy();
+  });
+
+  it('shows empty subjects without implying the connection is still loading', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const select = screen.getByRole('combobox', { name: 'Subject' });
+    expect(screen.getByRole('option', { name: 'AI (0)' })).toBeTruthy();
+    await user.selectOptions(select, 'AI');
+    expect(screen.getByText('No theory notes in this subject yet.')).toBeTruthy();
+    expect(screen.getByText('Choose a note')).toBeTruthy();
+    await user.selectOptions(select, 'all');
+    expect(screen.getByRole('heading', { name: 'Example' })).toBeTruthy();
   });
 });

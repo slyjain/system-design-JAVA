@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { subjects, subjectForPath } from './categories';
+import type { Section, SubjectFilter } from './categories';
 import { practiceNotes, theoryNotes } from './notes';
 import type { Item, ListNode, NoteNode, TableNode } from './notes';
 import { setChecked, subscribeProgress } from './progress';
@@ -102,7 +104,8 @@ function ReadingNode({ node, ...props }: ReadingProps & { node: NoteNode }) {
   }
 }
 
-const statusText: Record<Connection, string> = {
+const statusText: Record<Connection | 'idle', string> = {
+  idle: 'Choose a note',
   unconfigured: 'Preview only · Firebase not configured',
   connecting: 'Connecting to shared progress…',
   live: 'Shared progress connected',
@@ -111,29 +114,33 @@ const statusText: Record<Connection, string> = {
 };
 
 export default function App() {
-  const [section, setSection] = useState<'theory' | 'practice'>('theory');
+  const [section, setSection] = useState<Section>('theory');
+  const [subject, setSubject] = useState<SubjectFilter>('all');
   const [selectedPaths, setSelectedPaths] = useState({ theory: theoryNotes[0]?.path ?? '', practice: practiceNotes[0]?.path ?? '' });
   const [search, setSearch] = useState('');
   const [progress, setProgress] = useState<Progress>({});
-  const [connection, setConnection] = useState<Connection>('connecting');
+  const [connection, setConnection] = useState<Connection | 'idle'>('connecting');
   const [error, setError] = useState('');
   const [pending, setPending] = useState<Set<string>>(() => new Set());
   const notes = section === 'theory' ? theoryNotes : practiceNotes;
-  const selectedPath = selectedPaths[section];
-  const selected = notes.find((note) => note.path === selectedPath);
+  const subjectNotes = useMemo(() => subject === 'all'
+    ? notes
+    : notes.filter((note) => subjectForPath(note.path, section) === subject), [notes, section, subject]);
+  const selected = subjectNotes.find((note) => note.path === selectedPaths[section]) ?? subjectNotes[0];
+  const selectedPath = selected?.path;
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
-    return term ? notes.filter((note) => `${note.path}\n${note.title}\n${note.source}`.toLowerCase().includes(term)) : notes;
-  }, [notes, search]);
+    return term ? subjectNotes.filter((note) => `${note.path}\n${note.title}\n${note.source}`.toLowerCase().includes(term)) : subjectNotes;
+  }, [subjectNotes, search]);
 
-  const changeSection = (next: 'theory' | 'practice') => {
+  const changeSection = (next: Section) => {
     setSection(next);
     setSearch('');
   };
 
   useEffect(() => {
     setProgress({});
-    setConnection('connecting');
+    setConnection(selected ? 'connecting' : 'idle');
     setError('');
     if (!selected) return;
     return subscribeProgress(selected.itemIds, (next, status) => {
@@ -164,10 +171,12 @@ export default function App() {
   const understood = selected?.itemIds.filter((id) => progress[id]).length ?? 0;
   const total = selected?.itemIds.length ?? 0;
   const progressAvailable = connection === 'live' || connection === 'cached';
+  const rootFolder = section === 'practice' ? 'PracticeSheets' : 'ToLearn';
+  const suggestedFolder = subject === 'all' || subject === 'unsorted' ? `${rootFolder}/` : `${rootFolder}/${subject}/`;
   const readingProps: ReadingProps = {
     progress,
     pending,
-    disabled: connection === 'unconfigured' || connection === 'connecting' || connection === 'error',
+    disabled: connection === 'unconfigured' || connection === 'connecting' || connection === 'error' || connection === 'idle',
     action: section === 'practice' ? 'completed' : 'understood',
     definitions: selected?.definitions ?? '',
     onToggle: (id, checked) => { void toggle(id, checked); },
@@ -182,8 +191,16 @@ export default function App() {
           <button type="button" aria-pressed={section === 'theory'} onClick={() => changeSection('theory')}>Theory</button>
           <button type="button" aria-pressed={section === 'practice'} onClick={() => changeSection('practice')}>Practice</button>
         </div>
+        <label className="subject-label" htmlFor="subject">Subject</label>
+        <select id="subject" className="subject-select" value={subject} onChange={(event) => setSubject(event.target.value as SubjectFilter)}>
+          <option value="all">All subjects ({notes.length})</option>
+          <option value="unsorted">Unsorted ({notes.filter((note) => subjectForPath(note.path, section) === 'unsorted').length})</option>
+          {subjects.map(({ id, label }) => (
+            <option key={id} value={id}>{label} ({notes.filter((note) => subjectForPath(note.path, section) === id).length})</option>
+          ))}
+        </select>
         <label className="search-label" htmlFor="search-notes">Search {section === 'practice' ? 'practice sheets' : 'notes'}</label>
-        <input id="search-notes" className="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search notes…" />
+        <input id="search-notes" className="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={section === 'practice' ? 'Search practice…' : 'Search notes…'} />
         <nav className="note-list" aria-label="Choose a note">
           {filtered.map((note) => (
             <button className={`note-link${note.path === selectedPath ? ' active' : ''}`} key={note.path}
@@ -191,7 +208,7 @@ export default function App() {
               <span className="note-icon" aria-hidden="true">▤</span><span>{note.title}</span>
             </button>
           ))}
-          {filtered.length === 0 && <p className="empty-search">No notes match your search.</p>}
+          {filtered.length === 0 && <p className="empty-search">{search.trim() ? 'No notes match your search.' : 'No notes in this subject yet.'}</p>}
         </nav>
         <div className="sidebar-foot">One place to learn, revisit and grow.</div>
       </aside>
@@ -215,7 +232,7 @@ export default function App() {
             <div className="note-body">{selected.nodes.map((node, index) => <ReadingNode key={index} node={node} {...readingProps} />)}</div>
             <footer className="document-footer">End of note <span aria-hidden="true">✳</span> Keep learning at your own pace.</footer>
           </article>
-        ) : <p className="empty-state">No Markdown {section === 'practice' ? 'sheets' : 'notes'} found in <code>{section === 'practice' ? 'PracticeSheets/' : 'ToLearn/'}</code>.</p>}
+        ) : <div className="empty-state"><p>No {section === 'practice' ? 'practice sheets' : 'theory notes'} in this subject yet.</p><p>Add a Markdown file under <code>{suggestedFolder}</code>.</p></div>}
       </main>
     </div>
   );

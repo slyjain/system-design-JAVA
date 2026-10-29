@@ -14,6 +14,14 @@ Open the **Local** address printed by Vite. If port 5173 is occupied, Vite choos
 
 You can read and search immediately. Checkboxes remain disabled until Firebase is configured. When notes change locally, Vite normally refreshes them; refresh the browser if needed.
 
+## Subjects
+
+In both Theory and Practice, use the **Subject** selector to browse DSA, LLD, HLD, Core CS, AI, Programming or Developer Tools. Empty categories remain selectable. Existing files at the root, and files in unrecognized folders, appear under **Unsorted**; **All subjects** shows everything.
+
+The first folder below `ToLearn/` or `PracticeSheets/` determines the subject: for example, `ToLearn/LLD/SOLID.md` is theory and `PracticeSheets/LLD/Invoice.md` is practice. Nested folders within a subject also work. To add another subject, update `src/categories.ts` as well as the folders.
+
+The category selector does not move files or change their IDs. If you later move an existing note into a category, its path changes and its ticks start unchecked, as described below.
+
 ## Set up shared progress
 
 1. Create a project in the [Firebase console](https://console.firebase.google.com/). Create a **Cloud Firestore** database in a region you choose, using production mode initially. Review the provider's free quota and costs.
