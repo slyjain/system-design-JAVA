@@ -4,11 +4,11 @@ Concepts behind this task: `InterfacesDocs.md`.
 
 ## Setup
 
-From `system-design/`, copy your Concept 3 classes here and open this folder in its own VS Code window:
+From `system-design/`, copy your Concept 3 classes into the practice folder and open it in its own VS Code window:
 
 ```
-cp practice26Oct/{BankAccount,SavingsAccount,CurrentAccount}.java practice27Oct/
-code practice27Oct
+cp practice26Oct/{BankAccount,SavingsAccount,CurrentAccount}.java practice29Oct/
+code practice29Oct
 ```
 
 The `{a,b,c}` part is *brace expansion*: the shell turns it into three separate paths before `cp` runs. Check what it expands to with `echo practice26Oct/{BankAccount,SavingsAccount}.java`.
@@ -17,7 +17,7 @@ The `{a,b,c}` part is *brace expansion*: the shell turns it into three separate 
 
 ### `InterestBearing.java`
 
-An interface with one method, `addInterest()`.
+- Create an interface with one method, `addInterest()`.
 
 ### Changes
 
@@ -34,7 +34,7 @@ An interface with one method, `addInterest()`.
 
 ### `Notifier.java`
 
-An interface with one method: `send(String message)`.
+- Create an interface with one method: `send(String message)`.
 
 ### Two implementations
 

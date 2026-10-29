@@ -11,10 +11,18 @@ const fake = vi.hoisted(() => ({
 }));
 
 vi.mock('./notes', () => ({
-  notes: [{
+  theoryNotes: [{
     path: 'Example.md', title: 'Example', source: 'first idea', definitions: '',
     itemIds: ['item-one'],
     nodes: [{ kind: 'item', id: 'item-one', markdown: 'First idea', label: 'First idea' }],
+  }],
+  practiceNotes: [{
+    path: 'PracticeSheets/Example.md', title: 'Exercise', source: 'practice point', definitions: '',
+    itemIds: ['practice-one'],
+    nodes: [
+      { kind: 'content', markdown: 'Practice explanation' },
+      { kind: 'item', id: 'practice-one', markdown: 'Practice point', label: 'Practice point' },
+    ],
   }],
 }));
 
@@ -64,5 +72,18 @@ describe('reader UI with a simulated progress service', () => {
     render(<App />);
     await user.type(screen.getByRole('textbox', { name: /search notes/i }), 'missing');
     expect(screen.getByText('No notes match your search.')).toBeTruthy();
+  });
+
+  it('switches sections, preserves theory ticks, and marks practice as completed', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await user.click(screen.getByRole('checkbox', { name: /mark as understood: first idea/i }));
+    await user.click(screen.getByRole('button', { name: 'Practice' }));
+    expect(screen.getByText('Practice explanation')).toBeTruthy();
+    expect(screen.getAllByRole('checkbox')).toHaveLength(1);
+    await user.click(screen.getByRole('checkbox', { name: /mark as completed: practice point/i }));
+    expect(fake.progress['practice-one']).toBe(true);
+    await user.click(screen.getByRole('button', { name: 'Theory' }));
+    expect((screen.getByRole('checkbox', { name: /first idea/i }) as HTMLInputElement).checked).toBe(true);
   });
 });

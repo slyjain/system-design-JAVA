@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { notes, parseNote } from './notes';
+import { notes, parseNote, practiceNotes, theoryNotes } from './notes';
+import { practicePoints } from './practicePoints';
 
 const sample = `# Example
 
@@ -63,5 +64,21 @@ describe('note parsing and progress identity', () => {
     const note = parseNote('Links.md', '# Links\n\n[Example][source]\n\n[source]: https://example.com\n');
     expect(note.itemIds).toHaveLength(1);
     expect(note.definitions).toContain('https://example.com');
+  });
+
+  it('keeps the existing theory ID algorithm unchanged', () => {
+    const note = parseNote('InterfacesDocs.md', '# Title\n\nOne paragraph.\n');
+    expect(note.itemIds).toEqual(['563e5ab0e1e357579c600d4d9d63f53617552dff4092d6fa8d7acda443e9c24a']);
+    expect(theoryNotes.some((entry) => entry.path === 'InterfacesDocs.md')).toBe(true);
+  });
+
+  it('tracks practice points and table rows, but not explanatory paragraphs or code', () => {
+    const practice = parseNote('PracticeSheets/Example.md', sample, 'practice');
+    expect(practice.itemIds).toHaveLength(5);
+    expect(practicePoints(practice).map((point) => point.id)).toEqual(practice.itemIds);
+    expect(practice.nodes.filter((node) => node.kind === 'content')).toHaveLength(2);
+    expect(practiceNotes.some((entry) => entry.path === 'PracticeSheets/InterfacesTask.md')).toBe(true);
+    const theory = parseNote('Example.md', sample);
+    expect(theory.itemIds.some((id) => practice.itemIds.includes(id))).toBe(false);
   });
 });

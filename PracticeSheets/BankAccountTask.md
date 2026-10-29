@@ -1,5 +1,7 @@
 # Task: BankAccount and BankDemo
 
+Practice code: `practice24Oct/`.
+
 ## What the program models
 
 A tiny bank. People open accounts, put money in and take money out. The bank numbers the accounts automatically and knows how many have been opened.
@@ -19,7 +21,7 @@ A tiny bank. People open accounts, put money in and take money out. The bank num
 | Owner's name | Set when the account is opened. Never changes |
 | Balance | Starts at the opening amount, or 0. Changes only through deposit and withdraw |
 
-Shared by the whole class, not stored per account: how many accounts have been opened.
+- Track how many accounts have been opened, shared by the whole class rather than stored per account.
 
 ### What you can do with an account
 

@@ -1,6 +1,6 @@
 # Study Reader
 
-A browser reader for the Markdown files in `../ToLearn/`. The website is static; shared checkbox state is stored in Cloud Firestore. There is no application server or login.
+A browser reader with separate **Theory** (`../ToLearn/`) and **Practice** (`../PracticeSheets/`) sections. The website is static; shared checkbox state is stored in Cloud Firestore. There is no application server or login. Your Java practice code stays in the dated `practice...` folders.
 
 ## Run locally
 
@@ -38,7 +38,7 @@ Only current items from the open note are subscribed to. A deleted or changed it
 
 ## Publish on GitHub Pages
 
-The repository has a workflow at `.github/workflows/study-reader.yml`. It builds and deploys the reader when `ToLearn/`, `study-reader/` or the workflow changes on `main`, and supports manual runs.
+The repository has a workflow at `.github/workflows/study-reader.yml`. It builds and deploys the reader when `ToLearn/`, `PracticeSheets/`, `study-reader/` or the workflow changes on `main`, and supports manual runs.
 
 1. Make sure your repository and GitHub plan support Pages. In **repository Settings → Pages**, select **GitHub Actions** as the source. The resulting site and the notes it contains are public.
 2. In **Settings → Secrets and variables → Actions → Variables**, add these repository variables with the same Firebase web values as `.env.local`:
@@ -57,9 +57,22 @@ The reader parses Markdown, then hashes each item's **file path, type, normalize
 - Inserting an unrelated item leaves existing ticks alone; the new item starts unchecked.
 - Editing an item or renaming its file gives it a new ID, so it starts unchecked. Putting the exact old content back at the same path can restore its old tick.
 - Identical repeated items use their occurrence order. Inserting or deleting an identical duplicate before another can make ticks appear to move between duplicates.
-- A paragraph, table row, code block or list item is one item. A nested list item gets its own tick; headings are for navigation, not ticking. Adding text to an existing paragraph changes that paragraph's ID.
+- In theory, a paragraph, table row, code block or list item is one item. In practice, only list items and table rows are checkable; explanations, headings and code examples are not. A nested list item gets its own tick.
+- Theory keeps its original IDs, so adding the practice section does not reset theory ticks. Practice IDs are namespaced by their `PracticeSheets/` paths.
 
 The note files are never rewritten. `Learned/` is not read or modified.
+
+## Marking an exercise from the terminal
+
+The reader and this command use the same point IDs and shared Firestore data. From `study-reader/`:
+
+```bash
+npm run practice -- list InterfacesTask.md
+npm run practice -- check InterfacesTask.md <point-id>
+npm run practice -- uncheck InterfacesTask.md <point-id>
+```
+
+`list` reads the server and shows each point's current status and ID. Replace `<point-id>` with its displayed ID (at least eight unique hexadecimal characters). `check` and `uncheck` change just that point; the website updates through its existing listener. Check a point only after the user confirms completion or the work has been verified. These commands require the Firebase configuration described above and do not edit the Markdown sheet.
 
 ## Checks
 

@@ -14,6 +14,9 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .brand strong { font-size: 16px; letter-spacing: -.03em; }
 .brand div > span { margin-top: 3px; font-size: 11px; color: #888e83; }
 .library-heading { display: flex; justify-content: space-between; padding: 0 8px; color: #898f84; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.section-switch { display: flex; gap: 4px; margin-top: 14px; padding: 4px; border: 1px solid #e2e5db; border-radius: 9px; background: #e8ebe2; }
+.section-switch button { flex: 1; border: 0; border-radius: 6px; padding: 8px 10px; color: #788479; background: transparent; font-size: 12px; font-weight: 600; }
+.section-switch button[aria-pressed='true'] { color: #36523c; background: #fff; box-shadow: 0 1px 4px #344d3920; }
 .search-label, .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .search { width: 100%; background: #fafaf7; border: 1px solid #e4e5dd; border-radius: 8px; padding: 11px 12px; margin: 16px 0 14px; color: #343b32; font-size: 13px; }
 .search::placeholder { color: #a6aba2; }
@@ -63,6 +66,7 @@ h1 { font: 400 clamp(35px, 4.3vw, 52px)/1.14 'DM Serif Display', Georgia, serif;
 .is-understood .item-content, tr.is-understood td:not(:first-child) { color: #818b80; }
 .item-content { min-width: 0; flex: 1; }
 .item-content > :first-child { margin-top: 0; }
+.practice-content { margin: 12px 0; }
 .reading-list { margin: 6px 0 18px; padding-left: 24px; color: #a0a99d; }
 .reading-list li::marker { color: #a6b5a4; }
 .reading-list .reading-list { margin: 4px 0 8px; }

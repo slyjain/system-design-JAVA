@@ -2,7 +2,7 @@
 
 ## Setup
 
-From `system-design/`, copy your finished `BankAccount` here and open this folder in its own VS Code window:
+From `system-design/`, copy your finished `BankAccount` into the practice folder and open it in its own VS Code window:
 
 ```
 cp practice24Oct/BankAccount.java practice26Oct/

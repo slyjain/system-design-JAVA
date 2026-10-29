@@ -9,7 +9,8 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 3. Experiments: guess the result first, then try it.
 4. A review: lenient in learning mode, strict in serious mode.
 5. Anything worth keeping goes into a `*Docs.md` file in `ToLearn/`, without repeating information.
-6. Keep notes in `ToLearn/` and track understood items in the Study Reader. Progress is shared; Firebase setup is needed before ticks can be saved.
+6. Keep theory in `ToLearn/` and exercise sheets in `PracticeSheets/`. In the Study Reader, tick theory when understood and practice points when completed. Code stays in the dated practice folders. Progress is shared.
+7. The agent can mark a verified or user-confirmed practice point using the commands in `study-reader/README.md`; it must not infer completion from a sheet alone.
 
 ## Stage 1: Java concepts
 
@@ -17,8 +18,8 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 |---|---|---|---|
 | 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `practice24Oct/copyingVariable.java`, `PrimitivesVsObjectsDocs.md` |
 | 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `practice24Oct/BankAccount*`, `ClassesAndObjectsDocs.md`, `DesignPrinciplesDocs.md` |
-| 3 | Inheritance and polymorphism | Done | `practice26Oct/AccountTypesTask.md`, `InheritanceDocs.md` |
-| 4 | Interfaces and abstract classes | Done | `practice29Oct/InterfacesTask.md`, `InterfacesDocs.md` |
+| 3 | Inheritance and polymorphism | Done | `PracticeSheets/AccountTypesTask.md`, `InheritanceDocs.md` |
+| 4 | Interfaces and abstract classes | Done | `PracticeSheets/InterfacesTask.md`, `InterfacesDocs.md` |
 | 5 | Collections (`List`, `Map`, `Set`) and generics. Practice: a `Bank` class that owns all accounts | | |
 | 6 | Exceptions | Started | `ExceptionsDocs.md` |
 | 7 | Concurrency: threads, `synchronized`, atomics, executors. Practice: break `BankAccount` with two threads, then fix it | | |

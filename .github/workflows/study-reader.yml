@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'ToLearn/**'
+      - 'PracticeSheets/**'
       - 'study-reader/**'
       - '.github/workflows/study-reader.yml'
   workflow_dispatch:
