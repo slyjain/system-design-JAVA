@@ -36,6 +36,8 @@
 - A rule about one object ("the balance is never negative") belongs in that object's class.
 - A rule about many objects ("no two accounts share a number") can't be checked by one account, because an account doesn't know the others exist. It belongs to whatever holds all of them, like a `Bank` class, or it disappears if the class generates the numbers itself.
 - **Single Responsibility Principle (SRP):** a class should have one reason to change. For a concrete habit, see "Keep printing out of your core classes" in `EngineeringHabitsDocs.md`.
+- A *reason to change* means an independently changing responsibility, not a count of methods. For example, invoice pricing rules and email delivery can change for different reasons.
+- Group related work together; SRP doesn't mean making a separate class for every method.
 
 ## How the three fit together
 

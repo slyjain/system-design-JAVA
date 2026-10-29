@@ -9,21 +9,21 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 3. Experiments: guess the result first, then try it.
 4. A review: lenient in learning mode, strict in serious mode.
 5. Anything worth keeping goes into a `*Docs.md` file in `ToLearn/`, without repeating information.
-6. When you've understood a part, you move it into the same-named file in `Learned/`. Each piece of information lives in exactly one of the two, and a doc name like `InheritanceDocs.md` means whichever of the two files holds that part.
+6. Keep notes in `ToLearn/` and track understood items in the Study Reader. Progress is shared; Firebase setup is needed before ticks can be saved.
 
-## Stage 1: Java concepts (current)
+## Stage 1: Java concepts
 
 | # | Concept | Status | Where |
 |---|---|---|---|
 | 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `practice24Oct/copyingVariable.java`, `PrimitivesVsObjectsDocs.md` |
 | 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `practice24Oct/BankAccount*`, `ClassesAndObjectsDocs.md`, `DesignPrinciplesDocs.md` |
 | 3 | Inheritance and polymorphism | Done | `practice26Oct/AccountTypesTask.md`, `InheritanceDocs.md` |
-| 4 | Interfaces and abstract classes | **Now** | `practice27Oct/InterfacesTask.md`, `InterfacesDocs.md` |
+| 4 | Interfaces and abstract classes | Done | `practice29Oct/InterfacesTask.md`, `InterfacesDocs.md` |
 | 5 | Collections (`List`, `Map`, `Set`) and generics. Practice: a `Bank` class that owns all accounts | | |
 | 6 | Exceptions | Started | `ExceptionsDocs.md` |
 | 7 | Concurrency: threads, `synchronized`, atomics, executors. Practice: break `BankAccount` with two threads, then fix it | | |
 
-## Stage 2: LLD camp week-1 assignment (serious mode)
+## Stage 2: LLD camp week-1 assignment (serious mode, current)
 
 After Concept 4. Three SOLID refactors in `lld-camp-week1-assignment/Java`:
 
@@ -42,7 +42,7 @@ Its Dockerfile uses Java 11: use classic `public static void main(String[] args)
 
 ## Stage 4: Design principles
 
-SOLID in depth, DRY/KISS/YAGNI, composition over inheritance, programming to interfaces.
+SOLID in depth, DRY/KISS/YAGNI, composition over inheritance, programming to interfaces. Reference: `SystemDesignFundamentalsDocs.md`.
 
 ## Stage 5: Design patterns
 
