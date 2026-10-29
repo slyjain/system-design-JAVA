@@ -58,6 +58,10 @@ Git doesn't track empty directories. A placeholder file such as `.gitkeep` lets 
 - **Ctrl + R, then type:** searches your history backwards (R = reverse). Press Ctrl + R again for older matches, and Enter to run.
 - **`history | grep java`:** lists every past command containing `java`. `grep` comes from the old editor command `g/re/p`: **g**lobally search for a **r**egular **e**xpression and **p**rint the matching lines.
 
+## GitHub CLI
+
+For `gh` commands, see `GitHubCLIDocs.md`.
+
 ## Streams and redirection
 
 For `>`, `>>`, `2>`, `<`, `|`, `2>&1`, `&>`, `|&`, `/dev/null` and `tee`, see `StandardStreamsDocs.md`.

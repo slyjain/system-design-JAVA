@@ -56,6 +56,10 @@ Only current items from the open note are subscribed to. A deleted or changed it
 
 The repository has a workflow at `.github/workflows/study-reader.yml`. It builds and deploys the reader when `ToLearn/`, `PracticeSheets/`, `study-reader/` or the workflow changes on `main`, and supports manual runs.
 
+Both the branch and path filters must match: a push that only changes `DailyPractice/` does not trigger it. Local edits, checkbox changes and pull requests don't trigger it either. A successful run installs dependencies, runs tests, builds the site and deploys it; a test or build failure prevents deployment.
+
+For manual runs and inspecting their status, see `ToLearn/Developer-Tools/GitHubCLIDocs.md`.
+
 1. Make sure your repository and GitHub plan support Pages. In **repository Settings → Pages**, select **GitHub Actions** as the source. The resulting site and the notes it contains are public.
 2. In **Settings → Secrets and variables → Actions → Variables**, add these repository variables with the same Firebase web values as `.env.local`:
    - `VITE_FIREBASE_API_KEY`
