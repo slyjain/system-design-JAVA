@@ -4,14 +4,16 @@ Concepts behind this task: `InterfacesDocs.md`.
 
 ## Setup
 
-From `system-design/`, copy your Concept 3 classes into the practice folder and open it in its own VS Code window:
+Your existing work is in `DailyPractice/practice29Oct/`. From `system-design/`, open it with `code DailyPractice/practice29Oct`.
+
+These were the setup commands for an empty folder. **Do not run the copy command again:** it would overwrite your existing classes. For a new attempt, use a fresh folder instead.
 
 ```
-cp practice26Oct/{BankAccount,SavingsAccount,CurrentAccount}.java practice29Oct/
-code practice29Oct
+cp DailyPractice/practice26Oct/{BankAccount,SavingsAccount,CurrentAccount}.java DailyPractice/practice29Oct/
+code DailyPractice/practice29Oct
 ```
 
-The `{a,b,c}` part is *brace expansion*: the shell turns it into three separate paths before `cp` runs. Check what it expands to with `echo practice26Oct/{BankAccount,SavingsAccount}.java`.
+The `{a,b,c}` part is *brace expansion*: the shell turns it into three separate paths before `cp` runs. Check what it expands to with `echo DailyPractice/practice26Oct/{BankAccount,SavingsAccount}.java`.
 
 ## Part 1: a capability shared by unrelated classes
 

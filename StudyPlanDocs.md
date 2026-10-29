@@ -5,7 +5,7 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 ## How each topic is studied
 
 1. A lesson from first principles, compared with C++.
-2. A practice task you write yourself, in a dated practice folder.
+2. A practice task you write yourself, in a dated folder under `DailyPractice/`.
 3. Experiments: guess the result first, then try it.
 4. A review: lenient in learning mode, strict in serious mode.
 5. Anything worth keeping goes into a `*Docs.md` file in `ToLearn/`, without repeating information.
@@ -16,8 +16,8 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 
 | # | Concept | Status | Where |
 |---|---|---|---|
-| 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `practice24Oct/copyingVariable.java`, `ToLearn/Programming/PrimitivesVsObjectsDocs.md` |
-| 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `practice24Oct/BankAccount*`, `ToLearn/Programming/ClassesAndObjectsDocs.md`, `ToLearn/LLD/DesignPrinciplesDocs.md` |
+| 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `DailyPractice/practice24Oct/copyingVariable.java`, `ToLearn/Programming/PrimitivesVsObjectsDocs.md` |
+| 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `DailyPractice/practice24Oct/BankAccount*`, `ToLearn/Programming/ClassesAndObjectsDocs.md`, `ToLearn/LLD/DesignPrinciplesDocs.md` |
 | 3 | Inheritance and polymorphism | Done | `PracticeSheets/Programming/AccountTypesTask.md`, `ToLearn/Programming/InheritanceDocs.md` |
 | 4 | Interfaces and abstract classes | Done | `PracticeSheets/Programming/InterfacesTask.md`, `ToLearn/Programming/InterfacesDocs.md` |
 | 5 | Collections (`List`, `Map`, `Set`) and generics. Practice: a `Bank` class that owns all accounts | | |

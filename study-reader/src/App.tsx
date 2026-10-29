@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import creationDates from 'virtual:note-creation-times';
 import { subjects, subjectForPath } from './categories';
 import type { Section, SubjectFilter } from './categories';
 import { practiceNotes, theoryNotes } from './notes';
 import type { Item, ListNode, NoteNode, TableNode } from './notes';
+import { firstAdded, sortNotes } from './sortNotes';
+import type { SortableNote, SortOrder } from './sortNotes';
 import { setChecked, subscribeProgress } from './progress';
 import type { Connection, Progress } from './progress';
 
@@ -113,19 +116,29 @@ const statusText: Record<Connection | 'idle', string> = {
   error: 'Could not load shared progress',
 };
 
+function addedDate(note: SortableNote, section: Section): string {
+  const date = firstAdded(note, section, creationDates);
+  return date ? `First added ${new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(new Date(date))}` : 'Date unavailable';
+}
+
 export default function App() {
   const [section, setSection] = useState<Section>('theory');
   const [subject, setSubject] = useState<SubjectFilter>('all');
-  const [selectedPaths, setSelectedPaths] = useState({ theory: theoryNotes[0]?.path ?? '', practice: practiceNotes[0]?.path ?? '' });
+  const [sort, setSort] = useState<SortOrder>('newest');
+  const [selectedPaths, setSelectedPaths] = useState(() => ({
+    theory: sortNotes(theoryNotes, 'theory', 'newest', creationDates)[0]?.path ?? '',
+    practice: sortNotes(practiceNotes, 'practice', 'newest', creationDates)[0]?.path ?? '',
+  }));
   const [search, setSearch] = useState('');
   const [progress, setProgress] = useState<Progress>({});
   const [connection, setConnection] = useState<Connection | 'idle'>('connecting');
   const [error, setError] = useState('');
   const [pending, setPending] = useState<Set<string>>(() => new Set());
   const notes = section === 'theory' ? theoryNotes : practiceNotes;
+  const orderedNotes = useMemo(() => sortNotes(notes, section, sort, creationDates), [notes, section, sort]);
   const subjectNotes = useMemo(() => subject === 'all'
-    ? notes
-    : notes.filter((note) => subjectForPath(note.path, section) === subject), [notes, section, subject]);
+    ? orderedNotes
+    : orderedNotes.filter((note) => subjectForPath(note.path, section) === subject), [orderedNotes, section, subject]);
   const selected = subjectNotes.find((note) => note.path === selectedPaths[section]) ?? subjectNotes[0];
   const selectedPath = selected?.path;
   const filtered = useMemo(() => {
@@ -199,13 +212,19 @@ export default function App() {
             <option key={id} value={id}>{label} ({notes.filter((note) => subjectForPath(note.path, section) === id).length})</option>
           ))}
         </select>
+        <label className="subject-label" htmlFor="sort">Sort by</label>
+        <select id="sort" className="subject-select" value={sort} onChange={(event) => setSort(event.target.value as SortOrder)}>
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
         <label className="search-label" htmlFor="search-notes">Search {section === 'practice' ? 'practice sheets' : 'notes'}</label>
         <input id="search-notes" className="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={section === 'practice' ? 'Search practice…' : 'Search notes…'} />
         <nav className="note-list" aria-label="Choose a note">
           {filtered.map((note) => (
             <button className={`note-link${note.path === selectedPath ? ' active' : ''}`} key={note.path}
               onClick={() => setSelectedPaths((previous) => ({ ...previous, [section]: note.path }))} aria-current={note.path === selectedPath ? 'page' : undefined}>
-              <span className="note-icon" aria-hidden="true">▤</span><span>{note.title}</span>
+              <span className="note-icon" aria-hidden="true">▤</span><span className="note-copy"><span className="note-title">{note.title}</span><small className="note-date">{addedDate(note, section)}</small></span>
             </button>
           ))}
           {filtered.length === 0 && <p className="empty-search">{search.trim() ? 'No notes match your search.' : 'No notes in this subject yet.'}</p>}
@@ -219,7 +238,7 @@ export default function App() {
           <article className="document">
             <div className="eyebrow"><span className="eyebrow-dot" /> {section === 'practice' ? 'PRACTICE SHEET' : 'STUDY NOTE'}</div>
             <h1>{selected.title}</h1>
-            <p className="file-name">{selected.path}</p>
+            <p className="file-name">{selected.path} <span aria-hidden="true">·</span> <span title="First Git commit that added this document; it may differ from its actual creation date.">{addedDate(selected, section)}</span></p>
             <div className="progress-card">
               <div><strong>{section === 'practice' ? 'Keep track of your practice.' : 'Keep track of what clicks.'}</strong><p>{section === 'practice' ? 'Tick a point when you complete it.' : 'Tick an item when you understand it.'} Progress is shared with everyone.</p></div>
               <div className="progress-number"><strong>{progressAvailable ? understood : '—'}<span> / {total}</span></strong><small>{section === 'practice' ? 'COMPLETED' : 'UNDERSTOOD'}</small></div>

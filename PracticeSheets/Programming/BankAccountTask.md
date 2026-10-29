@@ -1,6 +1,6 @@
 # Task: BankAccount and BankDemo
 
-Practice code: `practice24Oct/`.
+Practice code: `DailyPractice/practice24Oct/`.
 
 ## What the program models
 

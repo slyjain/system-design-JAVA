@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
@@ -32,6 +32,15 @@ vi.mock('./notes', () => ({
     itemIds: ['lld-practice'],
     nodes: [{ kind: 'item', id: 'lld-practice', markdown: 'Design practice', label: 'Design practice' }],
   }],
+}));
+
+vi.mock('virtual:note-creation-times', () => ({
+  default: {
+    'ToLearn/Example.md': '2024-02-01T00:00:00Z',
+    'ToLearn/LLD/Design.md': '2024-01-01T00:00:00Z',
+    'PracticeSheets/Example.md': '2024-02-01T00:00:00Z',
+    'PracticeSheets/LLD/Exercise.md': '2024-01-01T00:00:00Z',
+  },
 }));
 
 vi.mock('./progress', () => ({
@@ -118,5 +127,17 @@ describe('reader UI with a simulated progress service', () => {
     expect(screen.getByText('Choose a note')).toBeTruthy();
     await user.selectOptions(select, 'all');
     expect(screen.getByRole('heading', { name: 'Example' })).toBeTruthy();
+  });
+
+  it('sorts document navigation by first-added time or name', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const names = () => within(screen.getByRole('navigation', { name: 'Choose a note' }))
+      .getAllByRole('button').map((button) => button.querySelector('.note-title')?.textContent);
+    expect(names()).toEqual(['Example', 'Design']);
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'oldest');
+    expect(names()).toEqual(['Design', 'Example']);
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'name');
+    expect(names()).toEqual(['Design', 'Example']);
   });
 });

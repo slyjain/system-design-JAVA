@@ -57,15 +57,15 @@ A package is like a namespace tied to a folder. `import bank.BankAccount;` is li
 
 ## If VS Code complains about the package
 
-VS Code may say the declared package doesn't match the expected package `practice24Oct`.
+VS Code may say the declared package doesn't match an expected package such as `DailyPractice.practice24Oct`.
 
 **Why (first principles):** the terminal and VS Code use the same rule: a class's package is its folder path, counted from a top source folder. They just disagree about which folder is the top.
 
 - `java BankDemo.java` treats the folder of the file you run as the top. `BankAccount.java` sits in that same folder, so it needs no package line.
-- VS Code's Java extension picks its own top folders. In this repo it uses `system-design/` itself (plus `src/` and `lld-camp-week1-assignment/Java/`), so it thinks `practice24Oct/BankAccount.java` belongs to a package called `practice24Oct`.
+- VS Code's Java extension picks its own top folders. If it uses `system-design/` as a source root, it can think `DailyPractice/practice24Oct/BankAccount.java` belongs to a package called `DailyPractice.practice24Oct`.
 
-**Don't fix it by adding a package line.** With `package practice24Oct;`, the terminal run fails to compile, and the `void main()` file can't have a package anyway.
+**Don't fix it by adding a package line.** Adding a package to the class changes how it must be compiled and loaded; the `void main()` file can't have a package anyway.
 
-**Fix: open each practice folder as its own VS Code window**, for example `code practice24Oct` from `system-design/`. VS Code then treats that folder as the top, and the error goes away.
+**Fix: open each practice folder as its own VS Code window**, for example `code DailyPractice/practice24Oct` from `system-design/`. VS Code then treats that folder as the top, and the error goes away.
 
-**Why a separate window, not "Add Folder to Java Source Path":** VS Code treats each opened folder as one Java project, and all classes in one project share one set of names. Putting several practice folders into the same project makes same-named classes clash. `src/main.java` and `practice23Oct/main.java` would already be two classes called `main`, and a `BankAccount` written on another day would clash with this one. Separate windows keep each day's practice apart.
+**Why a separate window, not "Add Folder to Java Source Path":** VS Code treats each opened folder as one Java project. Putting several practice folders into one source path can make same-named classes clash. `src/main.java` and `DailyPractice/practice23Oct/main.java` are both called `main`, and a `BankAccount` written on another day can clash with this one. Separate windows keep each day's practice apart.

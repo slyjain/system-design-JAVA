@@ -7,7 +7,7 @@
 - For a **primitive** (`int`, `double`, `boolean`, ...), the box holds the value itself.
 - For an **object** (an array, a String, an Integer and so on), the object lives in a separate area of memory called the heap. The box only holds the object's **address**, like a house address written on a slip of paper.
 
-Memory of `practice24Oct/copyingVariable.java` just before it ends:
+Memory of `DailyPractice/practice24Oct/copyingVariable.java` just before it ends:
 
 ```
  STACK: main's variables              HEAP: the objects
@@ -23,7 +23,7 @@ Memory of `practice24Oct/copyingVariable.java` just before it ends:
 1. **Java always copies what's in the box.** This happens when you assign with `=` and when you pass something to a method. For a primitive, what gets copied is the value. For an object, it's the address. The object itself is never copied unless you ask, with `Arrays.copyOf` or `clone()`.
 2. **`==` compares what's in the boxes.** For primitives, that means comparing the values. For objects, it means comparing the addresses, which asks "is this the same house?" **`.equals()` goes into both houses and compares what's inside.**
 
-## Examples from `practice24Oct/copyingVariable.java`
+## Examples from `DailyPractice/practice24Oct/copyingVariable.java`
 
 | What happened | Why |
 |---|---|

@@ -28,6 +28,9 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .note-link.active { background: #dfe9dc; color: #344f3c; font-weight: 700; }
 .note-icon { color: #9ba699; font-size: 16px; line-height: 1; }
 .note-link.active .note-icon { color: #55765e; }
+.note-copy { min-width: 0; }
+.note-title, .note-date { display: block; }
+.note-date { margin-top: 3px; color: #9ba39a; font-size: 10px; font-weight: 400; }
 .empty-search { color: #888e83; font-size: 13px; padding: 0 10px; }
 .sidebar-foot { margin: auto 8px 0; padding-top: 24px; color: #a3a79d; font-size: 11px; }
 .main-content { min-width: 0; }
@@ -96,7 +99,7 @@ td .tick { margin: 2px 0 0; }
   .brand { margin: 0 0 22px; }
   .note-list { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 4px; }
   .note-link { width: auto; min-width: max-content; max-width: 250px; }
-  .note-link span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .note-copy { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .sidebar-foot { display: none; }
   .topbar { padding: 15px 22px; min-height: 55px; }
   .document { padding: 38px 24px 65px; }

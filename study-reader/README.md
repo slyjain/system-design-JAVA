@@ -1,6 +1,6 @@
 # Study Reader
 
-A browser reader with separate **Theory** (`../ToLearn/`) and **Practice** (`../PracticeSheets/`) sections. The website is static; shared checkbox state is stored in Cloud Firestore. There is no application server or login. Your Java practice code stays in the dated `practice...` folders.
+A browser reader with separate **Theory** (`../ToLearn/`) and **Practice** (`../PracticeSheets/`) sections. The website is static; shared checkbox state is stored in Cloud Firestore. There is no application server or login. Your Java practice code stays in dated folders under `DailyPractice/`.
 
 ## Run locally
 
@@ -21,6 +21,14 @@ In both Theory and Practice, use the **Subject** selector to browse DSA, LLD, HL
 The first folder below `ToLearn/` or `PracticeSheets/` determines the subject: for example, `ToLearn/LLD/SOLID.md` is theory and `PracticeSheets/LLD/Invoice.md` is practice. Nested folders within a subject also work. To add another subject, update `src/categories.ts` as well as the folders.
 
 The category selector does not move files or change their IDs. If you later move an existing note into a category, its path changes and its ticks start unchecked, as described below.
+
+## Sort by when a document was first added
+
+Use **Sort by** to choose newest first (the default), oldest first, or name. Dates apply to whole notes and practice sheets, not individual paragraphs.
+
+Git stores commit dates, not a file's actual creation time. The displayed date is the earliest commit that added the document, with Git's best-effort rename tracking (`git log --follow`). It can differ from when the file was originally written, especially for copied files or incomplete history. Times are displayed in the browser's time zone.
+
+New, not-yet-committed documents and documents whose history isn't available show **Date unavailable** and appear after dated documents in either date order. Restart the local Vite server after committing a new file so it recomputes the dates. GitHub Actions checks out the full history before building the site; a local shallow clone or missing Git leaves dates unavailable rather than guessing.
 
 ## Set up shared progress
 

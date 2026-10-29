@@ -7,11 +7,11 @@ Concepts behind this task: `InterfacesDocs.md`.
 From `system-design/`, copy your Concept 3 classes here and open this folder in its own VS Code window:
 
 ```
-cp practice26Oct/{BankAccount,SavingsAccount,CurrentAccount}.java practice27Oct/
-code practice27Oct
+cp DailyPractice/practice26Oct/{BankAccount,SavingsAccount,CurrentAccount}.java DailyPractice/practice27Oct/
+code DailyPractice/practice27Oct
 ```
 
-The `{a,b,c}` part is *brace expansion*: the shell turns it into three separate paths before `cp` runs. Check what it expands to with `echo practice26Oct/{BankAccount,SavingsAccount}.java`.
+The `{a,b,c}` part is *brace expansion*: the shell turns it into three separate paths before `cp` runs. Check what it expands to with `echo DailyPractice/practice26Oct/{BankAccount,SavingsAccount}.java`.
 
 ## Part 1: a capability shared by unrelated classes
 

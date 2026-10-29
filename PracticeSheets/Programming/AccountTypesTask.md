@@ -2,11 +2,13 @@
 
 ## Setup
 
-From `system-design/`, copy your finished `BankAccount` into the practice folder and open it in its own VS Code window:
+Your existing work is in `DailyPractice/practice26Oct/`. From `system-design/`, open it with `code DailyPractice/practice26Oct`.
+
+These were the setup commands for an empty folder. **Do not run the copy command again:** it would overwrite your existing `BankAccount.java`. For a new attempt, use a fresh folder instead.
 
 ```
-cp practice24Oct/BankAccount.java practice26Oct/
-code practice26Oct
+cp DailyPractice/practice24Oct/BankAccount.java DailyPractice/practice26Oct/
+code DailyPractice/practice26Oct
 ```
 
 ## What the program models
