@@ -16,12 +16,12 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 
 | # | Concept | Status | Where |
 |---|---|---|---|
-| 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `practice24Oct/copyingVariable.java`, `PrimitivesVsObjectsDocs.md` |
-| 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `practice24Oct/BankAccount*`, `ClassesAndObjectsDocs.md`, `DesignPrinciplesDocs.md` |
-| 3 | Inheritance and polymorphism | Done | `PracticeSheets/AccountTypesTask.md`, `InheritanceDocs.md` |
-| 4 | Interfaces and abstract classes | Done | `PracticeSheets/InterfacesTask.md`, `InterfacesDocs.md` |
+| 1 | Types and references (primitives vs objects) | Done, one leftover (below) | `practice24Oct/copyingVariable.java`, `ToLearn/Programming/PrimitivesVsObjectsDocs.md` |
+| 2 | Classes and objects (constructors, `static`, `final`, encapsulation, invariants) | Done | `practice24Oct/BankAccount*`, `ToLearn/Programming/ClassesAndObjectsDocs.md`, `ToLearn/LLD/DesignPrinciplesDocs.md` |
+| 3 | Inheritance and polymorphism | Done | `PracticeSheets/Programming/AccountTypesTask.md`, `ToLearn/Programming/InheritanceDocs.md` |
+| 4 | Interfaces and abstract classes | Done | `PracticeSheets/Programming/InterfacesTask.md`, `ToLearn/Programming/InterfacesDocs.md` |
 | 5 | Collections (`List`, `Map`, `Set`) and generics. Practice: a `Bank` class that owns all accounts | | |
-| 6 | Exceptions | Started | `ExceptionsDocs.md` |
+| 6 | Exceptions | Started | `ToLearn/Programming/ExceptionsDocs.md` |
 | 7 | Concurrency: threads, `synchronized`, atomics, executors. Practice: break `BankAccount` with two threads, then fix it | | |
 
 ## Stage 2: LLD camp week-1 assignment (serious mode, current)
@@ -43,7 +43,7 @@ Its Dockerfile uses Java 11: use classic `public static void main(String[] args)
 
 ## Stage 4: Design principles
 
-SOLID in depth, DRY/KISS/YAGNI, composition over inheritance, programming to interfaces. Reference: `SystemDesignFundamentalsDocs.md`.
+SOLID in depth, DRY/KISS/YAGNI, composition over inheritance, programming to interfaces. Reference: `ToLearn/LLD/DesignPrinciplesDocs.md`.
 
 ## Stage 5: Design patterns
 
@@ -64,6 +64,6 @@ Approach for each: requirements → main methods → classes → relationships �
 ## Small leftovers
 
 - Concept 1, step 5: fix `src/main.java` (`Integer x` should be `int`, and the `nextInt()`/`nextLine()` newline trap).
-- The practice exercise at the end of `InputOutputDocs.md`: sum of `n` numbers, once with `Scanner` and once with `BufferedReader`.
+- The practice exercise at the end of `ToLearn/Programming/InputOutputDocs.md`: sum of `n` numbers, once with `Scanner` and once with `BufferedReader`.
 - LeetCode 1603 (Design Parking System), if not done yet.
 - Optional extra practice: the Exercism Java track.

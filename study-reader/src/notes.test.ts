@@ -60,7 +60,7 @@ describe('note parsing and progress identity', () => {
 
   it('loads real notes, preserves reference definitions and ignores them as reading items', () => {
     expect(notes.length).toBeGreaterThan(0);
-    expect(notes.some((note) => note.path === 'InterfacesDocs.md')).toBe(true);
+    expect(notes.some((note) => note.path === 'Programming/InterfacesDocs.md')).toBe(true);
     const note = parseNote('Links.md', '# Links\n\n[Example][source]\n\n[source]: https://example.com\n');
     expect(note.itemIds).toHaveLength(1);
     expect(note.definitions).toContain('https://example.com');
@@ -69,7 +69,7 @@ describe('note parsing and progress identity', () => {
   it('keeps the existing theory ID algorithm unchanged', () => {
     const note = parseNote('InterfacesDocs.md', '# Title\n\nOne paragraph.\n');
     expect(note.itemIds).toEqual(['563e5ab0e1e357579c600d4d9d63f53617552dff4092d6fa8d7acda443e9c24a']);
-    expect(theoryNotes.some((entry) => entry.path === 'InterfacesDocs.md')).toBe(true);
+    expect(theoryNotes.some((entry) => entry.path === 'Programming/InterfacesDocs.md')).toBe(true);
   });
 
   it('tracks practice points and table rows, but not explanatory paragraphs or code', () => {
@@ -77,7 +77,7 @@ describe('note parsing and progress identity', () => {
     expect(practice.itemIds).toHaveLength(5);
     expect(practicePoints(practice).map((point) => point.id)).toEqual(practice.itemIds);
     expect(practice.nodes.filter((node) => node.kind === 'content')).toHaveLength(2);
-    expect(practiceNotes.some((entry) => entry.path === 'PracticeSheets/InterfacesTask.md')).toBe(true);
+    expect(practiceNotes.some((entry) => entry.path === 'PracticeSheets/Programming/InterfacesTask.md')).toBe(true);
     const theory = parseNote('Example.md', sample);
     expect(theory.itemIds.some((id) => practice.itemIds.includes(id))).toBe(false);
   });

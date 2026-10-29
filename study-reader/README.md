@@ -75,9 +75,9 @@ The note files are never rewritten. `Learned/` is not read or modified.
 The reader and this command use the same point IDs and shared Firestore data. From `study-reader/`:
 
 ```bash
-npm run practice -- list InterfacesTask.md
-npm run practice -- check InterfacesTask.md <point-id>
-npm run practice -- uncheck InterfacesTask.md <point-id>
+npm run practice -- list Programming/InterfacesTask.md
+npm run practice -- check Programming/InterfacesTask.md <point-id>
+npm run practice -- uncheck Programming/InterfacesTask.md <point-id>
 ```
 
 `list` reads the server and shows each point's current status and ID. Replace `<point-id>` with its displayed ID (at least eight unique hexadecimal characters). `check` and `uncheck` change just that point; the website updates through its existing listener. Check a point only after the user confirms completion or the work has been verified. These commands require the Firebase configuration described above and do not edit the Markdown sheet.

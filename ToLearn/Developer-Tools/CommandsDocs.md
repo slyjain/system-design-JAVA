@@ -25,6 +25,8 @@
 | `echo *.java` | echo = repeat back | Prints its arguments, so you can see what the shell expanded | |
 | `code folder` | VS Code's command-line launcher | Opens VS Code with that folder as the top folder | `code practice24Oct`, or `code .` for the current folder |
 
+Git doesn't track empty directories. A placeholder file such as `.gitkeep` lets you keep an otherwise empty directory in the repository; the name is a convention, not a Git feature.
+
 ## Shell basics
 
 - **`.` and `..`:** `.` means the current folder and `..` means the folder above it. `cd ..` goes up one level, and `code .` opens VS Code on the folder you're in.
