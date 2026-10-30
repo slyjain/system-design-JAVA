@@ -80,6 +80,8 @@ Run these commands from `HLD/counter-app/`:
 
 `docker compose down` removes the project's containers and network but normally retains named volumes. Adding `-v` removes those volumes too, including this lab's saved counter. Remember **v = volumes**, not just stopping a process.
 
+A Linux container shares its host's kernel; its image supplies user-space programs, not a separate kernel. The counter CI first failed because MongoDB 8.0 rejected the newer `ubuntu-latest` runner's kernel ([SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912)). Pinning the runner to `ubuntu-22.04` selects an older runner environment. Identical container images do not guarantee compatibility with every host kernel; inspect failures with `gh run view RUN_ID --log-failed`.
+
 ## Extracting PDF text
 
 `pdftotext` converts selectable PDF text into a text file. Example:
