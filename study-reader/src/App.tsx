@@ -10,6 +10,7 @@ import { firstAdded, sortNotes } from './sortNotes';
 import type { SortableNote, SortOrder } from './sortNotes';
 import { setChecked, subscribeProgress } from './progress';
 import type { Connection, Progress } from './progress';
+import { useTheme } from './useTheme';
 
 type ReadingProps = {
   progress: Progress;
@@ -122,6 +123,7 @@ function addedDate(note: SortableNote, section: Section): string {
 }
 
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
   const [section, setSection] = useState<Section>('theory');
   const [subject, setSubject] = useState<SubjectFilter>('all');
   const [sort, setSort] = useState<SortOrder>('newest');
@@ -233,7 +235,15 @@ export default function App() {
       </aside>
 
       <main className="main-content">
-        <header className="topbar"><span>{section === 'practice' ? 'PRACTICE' : 'THEORY'} <span aria-hidden="true">/</span> READER</span><span className={`connection ${connection}`} role="status"><span className="status-dot" />{statusText[connection]}</span></header>
+        <header className="topbar">
+          <span>{section === 'practice' ? 'PRACTICE' : 'THEORY'} <span aria-hidden="true">/</span> READER</span>
+          <div className="topbar-actions">
+            <span className={`connection ${connection}`} role="status"><span className="status-dot" />{statusText[connection]}</span>
+            <button type="button" className="theme-toggle" aria-pressed={theme === 'dark'} onClick={toggleTheme}>
+              <span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span> Dark mode
+            </button>
+          </div>
+        </header>
         {selected ? (
           <article className="document">
             <div className="eyebrow"><span className="eyebrow-dot" /> {section === 'practice' ? 'PRACTICE SHEET' : 'STUDY NOTE'}</div>

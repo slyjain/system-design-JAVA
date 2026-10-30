@@ -63,6 +63,7 @@ beforeEach(() => {
   fake.progress = {};
   fake.listeners.clear();
   fake.unconfigured = false;
+  window.localStorage.clear();
 });
 afterEach(cleanup);
 
@@ -139,5 +140,18 @@ describe('reader UI with a simulated progress service', () => {
     expect(names()).toEqual(['Design', 'Example']);
     await user.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'name');
     expect(names()).toEqual(['Design', 'Example']);
+  });
+
+  it('changes the theme without changing checked study progress', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const checkbox = screen.getByRole('checkbox', { name: /first idea/i }) as HTMLInputElement;
+    await user.click(checkbox);
+    const button = screen.getByRole('button', { name: 'Dark mode' });
+    const previous = button.getAttribute('aria-pressed');
+    await user.click(button);
+    expect(button.getAttribute('aria-pressed')).not.toBe(previous);
+    expect(checkbox.checked).toBe(true);
+    expect(fake.progress['item-one']).toBe(true);
   });
 });

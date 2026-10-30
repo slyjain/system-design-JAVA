@@ -14,6 +14,10 @@ Open the **Local** address printed by Vite. If port 5173 is occupied, Vite choos
 
 You can read and search immediately. Checkboxes remain disabled until Firebase is configured. When notes change locally, Vite normally refreshes them; refresh the browser if needed.
 
+## Display theme
+
+The reader follows your device's light or dark preference until you use the **Dark mode** toggle. Your choice is stored in this browser's local storage, not in Firestore, so other devices can use a different theme. Clearing browser storage removes the choice; shared study progress is unaffected.
+
 ## Subjects
 
 In both Theory and Practice, use the **Subject** selector to browse DSA, LLD, HLD, Core CS, AI, Programming or Developer Tools. Empty categories remain selectable. Existing files at the root, and files in unrecognized folders, appear under **Unsorted**; **All subjects** shows everything.
