@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { MongoClient } from 'mongodb';
+import { MongoClient, MongoServerSelectionError } from 'mongodb';
 import { createApp } from './app.js';
 import { MongoCounterStore } from './store.js';
 
@@ -14,7 +14,7 @@ if (!uri || !Number.isInteger(port) || port < 1 || port > 65535) {
   process.exit(1);
 }
 
-const client = new MongoClient(uri, { maxPoolSize: 10, serverSelectionTimeoutMS: 5000, timeoutMS: 10000 });
+const client = new MongoClient(uri, { maxPoolSize: 10, serverSelectionTimeoutMS: 15000, timeoutMS: 20000 });
 const log = (entry: Record<string, unknown>) => console.log(JSON.stringify({ time: new Date().toISOString(), ...entry }));
 try {
   await client.connect();
@@ -41,8 +41,27 @@ try {
   };
   process.on('SIGTERM', stop);
   process.on('SIGINT', stop);
-} catch {
+} catch (error) {
   console.error('Database startup failed. Check MONGODB_URI, credentials and the Atlas network access list.');
+  // Error kinds/codes aid diagnosis without logging messages that may contain credentials.
+  const kind = (failure: unknown) => {
+    if (!(failure instanceof Error)) return { name: 'Unknown' };
+    const code = 'code' in failure ? failure.code : undefined;
+    const cause = failure.cause instanceof Error ? failure.cause : undefined;
+    const causeCode = cause && 'code' in cause ? cause.code : undefined;
+    return {
+      name: failure.name,
+      code: typeof code === 'number' || (typeof code === 'string' && /^[A-Z_0-9]+$/.test(code)) ? code : undefined,
+      causeName: cause?.name,
+      causeCode: typeof causeCode === 'string' && /^[A-Z_0-9]+$/.test(causeCode) ? causeCode : undefined,
+    };
+  };
+  log({
+    event: 'database_startup_failed', ...kind(error),
+    servers: error instanceof MongoServerSelectionError
+      ? [...(error.reason?.servers.values() ?? [])].map((server) => kind(server.error))
+      : undefined,
+  });
   await client.close();
   process.exitCode = 1;
 }
