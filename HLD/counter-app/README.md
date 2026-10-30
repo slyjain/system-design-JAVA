@@ -59,6 +59,8 @@ The seven tests use real MongoDB and HTTP requests: initial state, 100 concurren
 
 ## Deploy on Render Free
 
+The service created for this project is **https://samyak-counter-lab.onrender.com** ([dashboard](https://dashboard.render.com/web/srv-dbi260ajnfac73cjjb6g)). It deploys automatically from `main`. MCP created it with the repository root as its working directory, so its build/start commands use `npm --prefix HLD/counter-app ...` to select the app. The Blueprint below describes the equivalent subdirectory-based setup for recreating the service.
+
 `render.yaml` is a Blueprint configured with `plan: free`. Import this repository using **HLD/counter-app/render.yaml** as the Blueprint path and enter `MONGODB_URI` in Render's secret environment settings. Use the Hobby workspace and verify the Free instance selection in the deployment summary.
 
 For manual web-service setup, use these same settings:
@@ -78,6 +80,8 @@ Allow the service's **outbound IP ranges** from its Render dashboard in Atlas Ne
 ### Scheduled keep-alive
 
 `.github/workflows/counter-keepalive.yml` requests `/api/health` every five minutes, with timeouts and one retry for transient failures. It checks the JSON response and does not increment the counter. The job skips until the repository variable `COUNTER_APP_URL` is set to the deployed app's HTTPS base URL.
+
+This repository's variable is configured as `https://samyak-counter-lab.onrender.com`.
 
 After deployment, substitute the actual URL below:
 
