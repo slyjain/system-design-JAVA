@@ -2,6 +2,8 @@
 
 Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along the way. No fixed schedule: we move to the next part when the current one is done.
 
+**Current priority:** finish the HLD counter-website assignment from `HLD/session1/Notes.md`; return to LLD afterward.
+
 ## How each topic is studied
 
 1. A lesson from first principles, compared with C++.
@@ -24,7 +26,7 @@ Goal: learn Java (coming from C++) and Low-Level Design, with concurrency along 
 | 6 | Exceptions | Started | `ToLearn/Programming/ExceptionsDocs.md` |
 | 7 | Concurrency: threads, `synchronized`, atomics, executors. Practice: break `BankAccount` with two threads, then fix it | | |
 
-## Stage 2: LLD camp week-1 assignment (serious mode, current)
+## Stage 2: LLD camp week-1 assignment (serious mode, paused)
 
 After Concept 4. Three SOLID refactors in `lld-camp-week1-assignment/Java`:
 

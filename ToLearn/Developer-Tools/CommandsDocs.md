@@ -62,6 +62,20 @@ Git doesn't track empty directories. A placeholder file such as `.gitkeep` lets 
 
 For `gh` commands, see `GitHubCLIDocs.md`.
 
+## Extracting PDF text
+
+`pdftotext` converts selectable PDF text into a text file. Example:
+
+```bash
+pdftotext -f 27 -l 55 -layout '/home/heisenberg/Downloads/Database Internals.pdf' /tmp/opencode/database-internals-ch1.txt
+```
+
+- `-f` = first PDF page; `-l` = last PDF page, inclusive. These count pages in the PDF, which can differ from printed page numbers.
+- `-layout` tries to preserve spacing and columns; it doesn't extract diagrams or perform OCR on scanned images.
+- Quotes keep the filename with spaces as one argument. The last argument is the output file, which is overwritten if it already exists. `/tmp/opencode/` is temporary working space.
+- No terminal output is normal when writing to a file; it doesn't by itself prove success. Check `echo $?` immediately after the command (`0` means success), or read the file with `less /tmp/opencode/database-internals-ch1.txt` (`q` quits).
+- Use `-` as the output filename to write to standard output instead, for example `pdftotext -f 27 -l 28 -layout 'book.pdf' - | less`.
+
 ## Streams and redirection
 
 For `>`, `>>`, `2>`, `<`, `|`, `2>&1`, `&>`, `|&`, `/dev/null` and `tee`, see `StandardStreamsDocs.md`.
