@@ -31,6 +31,8 @@ Replace `123` with a real issue or pull-request number. An empty list can simply
 
 A **workflow** is the recipe (`.github/workflows/study-reader.yml`); a **run** is one execution of that recipe. The workflow ID shown by `gh workflow list` and the run ID shown by `gh run list` are different.
 
+Passing a workflow ID to `gh run view` asks GitHub to find a *run* with that ID, so it can return `404` even though the workflow exists. Use `gh workflow view` for a workflow ID and `gh run view` for a run ID.
+
 ```bash
 gh workflow list
 gh workflow view study-reader.yml
