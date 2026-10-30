@@ -1,0 +1,20 @@
+# Select this blueprint path when importing the repository on Render.
+services:
+  - type: web
+    name: samyak-counter-lab
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: HLD/counter-app
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.20.0
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_DB
+        value: counter_app
+      - key: MONGODB_URI
+        sync: false

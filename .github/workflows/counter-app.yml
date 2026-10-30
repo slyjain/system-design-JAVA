@@ -1,0 +1,35 @@
+name: Check Counter App
+on:
+  push:
+    branches: [main]
+    paths: ['HLD/counter-app/**', '.github/workflows/counter-app.yml']
+  pull_request:
+    paths: ['HLD/counter-app/**', '.github/workflows/counter-app.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:8.0
+        ports: ['27017:27017']
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'quit(db.adminCommand(\"ping\").ok ? 0 : 1)'"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    defaults:
+      run:
+        working-directory: HLD/counter-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: HLD/counter-app/package-lock.json
+      - run: npm ci
+      - run: npm test
+        env:
+          COUNTER_TEST_MONGODB_URI: mongodb://127.0.0.1:27017
+      - run: npm run build

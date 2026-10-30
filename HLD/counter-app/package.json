@@ -1,0 +1,36 @@
+{
+  "name": "hld-counter-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.20.0 <23" },
+  "scripts": {
+    "db:up": "docker compose up -d --wait",
+    "db:stop": "docker compose stop",
+    "dev": "concurrently -k -n api,web \"tsx watch server/index.ts\" \"vite --host 127.0.0.1\"",
+    "dev:local": "MONGODB_URI=mongodb://127.0.0.1:27018 MONGODB_DB=counter_app npm run dev",
+    "build": "tsc --noEmit && tsc -p tsconfig.server.json && vite build",
+    "start": "node dist/index.js",
+    "start:local": "MONGODB_URI=mongodb://127.0.0.1:27018 MONGODB_DB=counter_app npm start",
+    "test": "vitest run",
+    "test:local": "COUNTER_TEST_MONGODB_URI=mongodb://127.0.0.1:27018 npm test"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.2",
+    "vite": "^7.1.0",
+    "vitest": "^3.2.4"
+  }
+}

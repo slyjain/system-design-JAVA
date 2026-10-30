@@ -1,0 +1,33 @@
+name: Keep Counter Awake
+
+on:
+  schedule:
+    # Every five minutes, offset from the busiest minute at the top of the hour.
+    - cron: '3-59/5 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: counter-keepalive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    # Set this repository variable after the Render deployment has a public URL.
+    if: ${{ vars.COUNTER_APP_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    env:
+      COUNTER_APP_URL: ${{ vars.COUNTER_APP_URL }}
+    steps:
+      - name: Request the health endpoint
+        shell: bash
+        run: |
+          curl --fail-with-body --silent --show-error --location \
+            --connect-timeout 15 --max-time 90 \
+            --retry 1 --retry-delay 10 --retry-connrefused \
+            --output /tmp/counter-health.json \
+            "${COUNTER_APP_URL%/}/api/health"
+          cat /tmp/counter-health.json
+          jq --exit-status '.status == "ok" and .database == "connected"' /tmp/counter-health.json

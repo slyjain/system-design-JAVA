@@ -62,6 +62,24 @@ Git doesn't track empty directories. A placeholder file such as `.gitkeep` lets 
 
 For `gh` commands, see `GitHubCLIDocs.md`.
 
+## Running the counter lab
+
+Run these commands from `HLD/counter-app/`:
+
+| Command | Meaning and memory hook |
+|---|---|
+| `npm ci` | Clean, lockfile-based dependency installation, commonly used in continuous integration. Replaces `node_modules` and fails if the manifest and lockfile disagree |
+| `npm run build` | Runs the project's `build` script from `package.json`; the name is a convention, so inspect that file to see the actual commands |
+| `docker compose up -d --wait` | `compose` manages the services described in `compose.yaml`; `up` creates/starts them, `-d` detaches, and `--wait` waits for running/healthy state |
+| `docker compose ps` | Lists the Compose project's containers and their status; `ps` is the familiar process-status name |
+| `docker compose logs --tail=30 mongo` | Reads the latest 30 log lines from the `mongo` service |
+| `docker compose stop` | Stops containers while retaining them and their data volumes |
+| `curl --fail-with-body -X POST http://localhost:3001/api/increment` | Sends an HTTP request; `-X` selects the method. `--fail-with-body` returns a nonzero exit code for HTTP errors while retaining the response body |
+
+`MONGODB_URI=mongodb://127.0.0.1:27018 npm start` sets an environment variable for that command and its children. Unlike `export`, it does not change the variable for later commands in your shell. The app's `*:local` scripts use this to select Docker rather than the Atlas URI saved in `.env.local`.
+
+`docker compose down` removes the project's containers and network but normally retains named volumes. Adding `-v` removes those volumes too, including this lab's saved counter. Remember **v = volumes**, not just stopping a process.
+
 ## Extracting PDF text
 
 `pdftotext` converts selectable PDF text into a text file. Example:
